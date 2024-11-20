@@ -64,18 +64,14 @@ export function InputForm() {
             </FormItem>
           )}
         />
-               <FormField
+        <FormField
           control={form.control}
           name="password"
           render={({ field }) => (
             <FormItem>
               <FormLabel>{t("authorisation.password")}</FormLabel>
               <FormControl>
-                <Input
-                  type="password"
-                  placeholder={t("")}
-                  {...field}
-                />
+                <Input type="password" placeholder={t("")} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
