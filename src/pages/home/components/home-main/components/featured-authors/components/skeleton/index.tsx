@@ -8,7 +8,7 @@ export function SkeletonDemo({
       <Skeleton className=" relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full" />
       <div className="space-y-2">
         <div>
-          <Link to="/" className="font-semibold hover:underline">
+          <Link to="/author/1" className="font-semibold hover:underline">
             {data.name}
           </Link>
           <p className="text-sm text-muted-foreground">{data.bio}</p>
