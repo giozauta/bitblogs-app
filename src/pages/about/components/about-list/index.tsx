@@ -10,19 +10,19 @@ const AboutList: React.FC = () => {
       title: "Rich Content",
       description:
         "Access a wide range of articles, tutorials, and insights on the latest tech trends and best practices.",
-      img: "./public/book.jpg",
+      img: "book.jpg",
     },
     {
       title: "Vibrant Community",
       description:
         "Connect with like-minded individuals, share your knowledge, and grow your professional network.",
-      img: "./public/manIcon.jpg",
+      img: "./manIcon.jpg",
     },
     {
       title: "Cutting-edge Topics",
       description:
         "Stay ahead of the curve with content covering emerging technologies and innovative solutions.",
-      img: "./public/shezam.jpg",
+      img: "./shezam.jpg",
     },
   ]);
   return (
