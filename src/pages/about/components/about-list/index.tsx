@@ -10,7 +10,7 @@ const AboutList: React.FC = () => {
       title: "Rich Content",
       description:
         "Access a wide range of articles, tutorials, and insights on the latest tech trends and best practices.",
-      img: "book.jpg",
+      img: "./book.jpg",
     },
     {
       title: "Vibrant Community",
