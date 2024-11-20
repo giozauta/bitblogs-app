@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FeaturedAuthors from "./components/featured-authors/FeaturedAuthors";
-import { blogsData } from "./state";
+import { blogsData } from "../../components/state";
 import PopularTags from "./components/popular-tags/PopularTags";
 import Blogs from "./components/blogs";
 

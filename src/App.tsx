@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import DefaultLayout from "./layouts/default/DefaultLayout";
 import Authorization from "./pages/authorization/Authorization";
 import Registration from "./pages/registration/Registration";
+import HomeAuthorView from "./pages/home/views/home-author";
 
 const HomeMainViews = React.lazy(
   () => import("./pages/home/views/home-main/index"),
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route element={<DefaultLayout />}>
           <Route path="/" element={<HomeMainViews />} />
+          <Route path="author/:id" element={<HomeAuthorView />} />
           <Route path="about" element={<AboutListViews />} />
           <Route path="login" element={<Authorization />} />
           <Route path="register" element={<Registration />} />
