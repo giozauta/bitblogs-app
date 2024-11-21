@@ -21,11 +21,5 @@
       "src": "/public/(.*)",
       "dest": "/public/$1"
     }
-  ],
-  "build": {
-    "env": {
-      "VITE_SUPABASE_URL": "https://dzzuxkjqokgdoswcrsex.supabase.co",
-      "VITE_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR6enV4a2pxb2tnZG9zd2Nyc2V4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzIxNzQwNjcsImV4cCI6MjA0Nzc1MDA2N30.ZzY7cEXnORYMJ8gcdNjF71X8bi1esh10gFovZCoIDxs"
-    }
-  }
+  ]
 }
