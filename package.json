@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "prepare": "husky",
     "format": "prettier --write .",
-    "gen:supabase-types": "supabase gen types typescript --project-id dzzuxkjqokgdoswcrsex --schema public > src/supabase/types.ts"  },
+    "gen:supabase-types": "supabase gen types typescript --project-id dzzuxkjqokgdoswcrsex --schema public > src/supabase/types.ts"
+  },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
