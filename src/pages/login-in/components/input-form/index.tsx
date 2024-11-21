@@ -16,28 +16,40 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
+import { useMutation } from "@tanstack/react-query";
+import { login } from "@/supabase/auth";
 
 const FormSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+  email: z.string().min(2, {
+    message: "email must be at least 2 characters.",
   }),
   password: z
     .string()
     .min(6, { message: "Password must be at least 6 characters." }),
 });
 
-export function InputForm() {
+const InputForm: React.FC = () => {
   const { t } = useTranslation();
+
+  const { mutate: handleLogin } = useMutation({
+    mutationKey: ["login"],
+    mutationFn: login,
+    onSuccess: (data) => {
+      console.log("Login successful:", data);
+    },
+  });
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    handleLogin(data);
+
     toast({
       title: "You submitted the following values:",
       description: (
@@ -53,12 +65,12 @@ export function InputForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
         <FormField
           control={form.control}
-          name="username"
+          name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel>{t("authorisation.email")}</FormLabel>
               <FormControl>
-                <Input placeholder="gio@exampole.com" {...field} />
+                <Input type="email" placeholder="gio@exampole.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -83,4 +95,6 @@ export function InputForm() {
       </form>
     </Form>
   );
-}
+};
+
+export default InputForm;

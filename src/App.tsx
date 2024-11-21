@@ -2,8 +2,8 @@ import "./App.css";
 import React, { Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import DefaultLayout from "./layouts/default/DefaultLayout";
-import Authorization from "./pages/authorization/Authorization";
-import Registration from "./pages/registration/Registration";
+import Authorization from "./pages/login-in/Login";
+import Registration from "./pages/sign-up/SignUp";
 import HomeAuthorView from "./pages/home/views/home-author";
 
 const HomeMainViews = React.lazy(

@@ -1,4 +1,4 @@
-import { InputForm } from "./components/input-form";
+import InputForm from "./components/input-form";
 
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
