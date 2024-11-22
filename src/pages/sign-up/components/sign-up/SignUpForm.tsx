@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "@tanstack/react-query";
 import { register } from "@/supabase/auth";
+import { useNavigate } from "react-router-dom";
 
 const FormSchema = z.object({
   username: z.string().min(2, {
@@ -38,6 +39,7 @@ const FormSchema = z.object({
 
 export function SignUpForm() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const { mutate: handleRegister } = useMutation({
     mutationKey: ["register"],
@@ -66,8 +68,9 @@ export function SignUpForm() {
       });
       return;
     }
-    alert("successfully registered");
+
     handleRegister(data);
+    navigate("/");
     toast({
       title: "You submitted the following values:",
       description: (
@@ -138,7 +141,7 @@ export function SignUpForm() {
           )}
         />
         <Button className="w-full bg-blue-500 hover:bg-blue-700" type="submit">
-          {t("registration.login")}
+          {t("registration.signUp")}
         </Button>
       </form>
     </Form>

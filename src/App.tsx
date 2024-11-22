@@ -1,10 +1,16 @@
 import "./App.css";
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import DefaultLayout from "./layouts/default/DefaultLayout";
 import Authorization from "./pages/login-in/Login";
 import Registration from "./pages/sign-up/SignUp";
 import HomeAuthorView from "./pages/home/views/home-author";
+import ProfilePage from "./pages/profile-page";
+import { supabase } from "./supabase";
+import { userAtom } from "@/store/auth";
+import {  useSetAtom } from "jotai";
+import AuthGuard from "./components/auth-gurad";
+import LoginGuard from "./components/login-guard";
 
 const HomeMainViews = React.lazy(
   () => import("./pages/home/views/home-main/index"),
@@ -15,6 +21,24 @@ const AboutListViews = React.lazy(
 );
 
 function App() {
+  const setUser = useSetAtom(userAtom);
+
+
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [setUser]);
+
   return (
     <Suspense fallback={<div>loading...</div>}>
       <Routes>
@@ -22,11 +46,34 @@ function App() {
           <Route path="/" element={<HomeMainViews />} />
           <Route path="author/:id" element={<HomeAuthorView />} />
           <Route path="about" element={<AboutListViews />} />
-          <Route path="login" element={<Authorization />} />
-          <Route path="register" element={<Registration />} />
+
+          <Route
+            path="login"
+            element={
+              <LoginGuard>
+                <Authorization />
+              </LoginGuard>
+            }
+          />
+
+          <Route
+            path="register"
+            element={
+              <LoginGuard>
+                <Registration />
+              </LoginGuard>
+            }
+          />
+          <Route
+            path="profilePage"
+            element={
+              <AuthGuard>
+                <ProfilePage />
+              </AuthGuard>
+            }
+          />
           <Route path="" element={<Navigate to="home" />} />
         </Route>
-        {/* <Route path="/" element={<Navigate to="/home" />} /> */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Suspense>

@@ -3,6 +3,9 @@ import { useTranslation } from "react-i18next";
 import LangButton from "./components/lang-button/LangButton";
 import { ThemeModeToggle } from "./components/mode-toggle/ModeToggle";
 import { Link } from "react-router-dom";
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/store/auth";
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
 const Header: React.FC = () => {
   const { t } = useTranslation();
@@ -10,6 +13,8 @@ const Header: React.FC = () => {
   const handleChangeLanguage = (language: string) => {
     i18next.changeLanguage(language);
   };
+
+  const user = useAtomValue(userAtom);
 
   return (
     <div className="header border-b">
@@ -55,11 +60,22 @@ const Header: React.FC = () => {
               <path d="m21 21-4.3-4.3"></path>
             </svg>
           </button>
-          <Link to="login">
-            <div className="headerSingIn nline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1  disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4  text-primary-foreground shadow hover:bg-blue-500 h-9 px-4 py-2 bg-blue-600">
-              Sign In
-            </div>
-          </Link>
+
+          {!user ? (
+            <Link to="login">
+              <div className="headerSingIn nline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1  disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4  text-primary-foreground shadow hover:bg-blue-500 h-9 px-4 py-2 bg-blue-600">
+                Sign In
+              </div>
+            </Link>
+          ) : (
+            <Link to="/profilePage">
+              <Avatar className="relative flex shrink-0 overflow-hidden rounded-full w-10 h-10">
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback></AvatarFallback>
+              </Avatar>
+            </Link>
+          )}
+
           <LangButton handleChangeLanguage={handleChangeLanguage} />
           <ThemeModeToggle />
         </div>

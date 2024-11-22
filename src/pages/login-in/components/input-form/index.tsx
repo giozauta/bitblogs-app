@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "@/supabase/auth";
+import { useNavigate } from "react-router-dom";
 
 const FormSchema = z.object({
   email: z.string().min(2, {
@@ -30,12 +31,17 @@ const FormSchema = z.object({
 
 const InputForm: React.FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const { mutate: handleLogin } = useMutation({
     mutationKey: ["login"],
     mutationFn: login,
-    onSuccess: (data) => {
-      console.log("Login successful:", data);
+    onSuccess: () => {
+      navigate("/profilePage");
+    },
+    onError: (error) => {
+      alert("იუზერი ან პაროლი არასწორია");
+      console.log(error);
     },
   });
 
@@ -83,7 +89,7 @@ const InputForm: React.FC = () => {
             <FormItem>
               <FormLabel>{t("authorisation.password")}</FormLabel>
               <FormControl>
-                <Input type="password" placeholder={t("")} {...field} />
+                <Input type="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

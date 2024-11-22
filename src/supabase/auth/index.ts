@@ -1,4 +1,4 @@
-import { supabase } from "@/supabase";
+import { supabase } from "../index";
 
 export const register = ({
   email,
@@ -9,7 +9,6 @@ export const register = ({
   password: string;
   confirmPassword: string;
 }) => {
-  console.log(email, password);
   return supabase.auth.signUp({
     email,
     password,
@@ -23,8 +22,19 @@ export const login = ({
   email: string;
   password: string;
 }) => {
-  return supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+  return supabase.auth
+    .signInWithPassword({
+      email,
+      password,
+    })
+    .then((res) => {
+      if (res.error) {
+        throw new Error(res.error.message);
+      }
+      return res;
+    });
+};
+
+export const logout = () => {
+  return supabase.auth.signOut();
 };
