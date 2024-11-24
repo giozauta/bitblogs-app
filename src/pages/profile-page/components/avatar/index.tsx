@@ -6,8 +6,8 @@ type AuthorAvatarProps = {
 
 const AuthorAvatar: React.FC<AuthorAvatarProps> = ({ avatar }) => {
   return (
-    <Avatar className=" relative flex shrink-0 overflow-hidden rounded-full w-32 h-32 mb-4 md:mb-0 md:mr-8 ">
-      <AvatarImage  src={avatar} alt="@shadcn" />
+    <Avatar className=" relative flex shrink-0 overflow-hidden rounded-full w-24 h-24 mb-4 md:mb-0 md:mr-8 ">
+      <AvatarImage src={avatar} alt="@shadcn" />
       <AvatarFallback>CN</AvatarFallback>
     </Avatar>
   );

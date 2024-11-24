@@ -35,7 +35,7 @@ const EditProfile: React.FC<PropsWithChildren<{ refetch: () => void }>> = ({
     last_name_ka: "",
     phoneNumber: "",
   });
-  const [,setIconAtom]=useAtom(userIconAtom);
+  const [, setIconAtom] = useAtom(userIconAtom);
 
   //for avatar
   const avatar = createAvatar(avataaars, {
@@ -44,8 +44,6 @@ const EditProfile: React.FC<PropsWithChildren<{ refetch: () => void }>> = ({
   const svg = avatar.toString();
   const encodedSvg = encodeURIComponent(svg).replace(/%20/g, " ");
   const dataUrl = `data:image/svg+xml;charset=utf-8,${encodedSvg}`;
-
-
 
   const { mutate: handleProfileInfo, isError } = useMutation({
     mutationKey: ["upsertProfileInfo"],
@@ -111,10 +109,7 @@ const EditProfile: React.FC<PropsWithChildren<{ refetch: () => void }>> = ({
           </DialogDescription>
         </DialogHeader>
         <div className=" grid grid-cols-4 items-center gap-x-1">
-          <img
-            src={dataUrl}
-            alt="Avatar"
-          />
+          <img src={dataUrl} alt="Avatar" />
           <SelectAfvatar handleAvatarChange={handleAvatarChange} />
         </div>
         <div className=" grid gap-4 py-4 ">

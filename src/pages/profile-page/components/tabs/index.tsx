@@ -55,29 +55,30 @@ const ProfileTabs: React.FC = () => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="english">
-            <div className="border flex flex-col md:flex-row items-center md:items-start mb-12 bg-card rounded-lg shadow-lg p-8">
-              <div className=" p-10 flex justify-center items-center">
-                <AuthorAvatar avatar={avatar} />
-              </div>
-              <div className="authorEnBoxContent p-10">
-                <p>name : {profile?.full_name_en} </p>
-                <p>last Name :{profile?.last_name_en}</p>
-                <p>phone number :{profile?.phoneNumber}</p>
-              </div>
-            </div>
-          </TabsContent>
-          <TabsContent value="georgian">
-            <div className="border flex flex-col md:flex-row items-center md:items-start mb-12 bg-card rounded-lg shadow-lg p-8">
-              <div className=" p-10 flex justify-center items-center">
-                <AuthorAvatar avatar={avatar} />
-              </div>
-              <div className="authorEnBoxContent p-10">
-                <p>სახელი : {profile?.full_name_ka} </p>
-                <p>გვარი : {profile?.last_name_ka}</p>
-                <p>ტელეფონის ნომერი : {profile?.phoneNumber}</p>
-              </div>
-            </div>
-          </TabsContent>
+  <div className="border flex flex-col md:flex-row items-center md:items-start mb-12 bg-card rounded-lg shadow-lg p-8">
+    <div className="p-8 md:p-10 flex justify-center items-center mb-6 md:mb-0">
+      <AuthorAvatar avatar={avatar} />
+    </div>
+    <div className=" authorEnBoxContent flex-1 md:p-8 lg:p-12 w-full">
+      <p className="text-lg font-semibold text-gray-600">Name: {profile?.full_name_en}</p>
+      <p className="text-lg font-semibold text-gray-600">Last Name: {profile?.last_name_en}</p>
+      <p className="text-lg font-semibold text-gray-600">Phone number: {profile?.phoneNumber}</p>
+    </div>
+  </div>
+</TabsContent>
+<TabsContent value="georgian">
+  <div className="border flex flex-col md:flex-row items-center md:items-start mb-12 bg-card rounded-lg shadow-lg p-8">
+    <div className="p-8 md:p-10 flex justify-center items-center mb-6 md:mb-0">
+      <AuthorAvatar avatar={avatar} />
+    </div>
+    <div className="authorEnBoxContent flex-1 md:p-8 lg:p-12 w-full">
+      <p className="text-lg font-semibold text-gray-600">სახელი: {profile?.full_name_ka}</p>
+      <p className="text-lg font-semibold text-gray-600">გვარი: {profile?.last_name_ka}</p>
+      <p className="text-lg font-semibold text-gray-600">ტელეფონის ნომერი: {profile?.phoneNumber}</p>
+    </div>
+  </div>
+</TabsContent>
+
         </Tabs>
 
         <Link
