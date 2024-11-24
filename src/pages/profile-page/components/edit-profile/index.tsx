@@ -16,22 +16,35 @@ import { FileProfileInfoPayLoad } from "@/supabase/account/index.types";
 import { useMutation } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { ChangeEvent, PropsWithChildren, useState } from "react";
+import { createAvatar } from "@dicebear/core";
+import { avataaars } from "@dicebear/collection";
+import SelectAfvatar from "../select-avatar/SelectAvatar";
 
 const EditProfile: React.FC<PropsWithChildren<{ refetch: () => void }>> = ({
   refetch,
 }) => {
   const user = useAtom(userAtom);
   const userId = user[0]?.user.id ?? "";
-
+  const [selectedAvatar, setSelectedAvatar] = useState("");
   const [profilePayload, setProfilePayload] = useState({
     id: userId || "",
     full_name_en: "",
-    avatar_url: "",
+    avatar_url:"",
     full_name_ka: "",
     last_name_en: "",
     last_name_ka: "",
     phoneNumber: "",
   });
+
+
+ 
+  //for avatar
+  const avatar = createAvatar(avataaars, {
+    seed: selectedAvatar,
+  });
+  const svg = avatar.toString();
+  const encodedSvg = encodeURIComponent(svg).replace(/%20/g, " ");
+  const dataUrl = `data:image/svg+xml;charset=utf-8,${encodedSvg}`;
 
   const { mutate: handleProfileInfo, isError } = useMutation({
     mutationKey: ["upsertProfileInfo"],
@@ -55,6 +68,7 @@ const EditProfile: React.FC<PropsWithChildren<{ refetch: () => void }>> = ({
     const payload: FileProfileInfoPayLoad = {
       ...profilePayload,
       id: userId,
+      avatar_url: dataUrl
     };
     alert("User info updated");
     handleProfileInfo(payload);
@@ -67,6 +81,10 @@ const EditProfile: React.FC<PropsWithChildren<{ refetch: () => void }>> = ({
       last_name_ka: "",
       phoneNumber: "",
     });
+  };
+
+  const handleAvatarChange = (value: string) => {
+    setSelectedAvatar(value);
   };
 
   if (isError) {
@@ -89,6 +107,14 @@ const EditProfile: React.FC<PropsWithChildren<{ refetch: () => void }>> = ({
             Make changes to your profile here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
+        <div className=" grid grid-cols-4 items-center gap-x-1">
+            <img
+              src={dataUrl}
+              alt="Avatar"
+              style={{ width: "100px", height: "100px" }}
+            />
+            <SelectAfvatar handleAvatarChange={handleAvatarChange} />
+          </div>
         <div className=" grid gap-4 py-4 ">
           <div className=" grid grid-cols-4 items-center gap-x-1">
             <Label htmlFor="nameEn" className="text-left">
@@ -134,17 +160,8 @@ const EditProfile: React.FC<PropsWithChildren<{ refetch: () => void }>> = ({
               onChange={(event) => handleProfileInfoUpdate(event)}
             />
           </div>
-          <div className=" grid grid-cols-4 items-center gap-x-1">
-            <Label htmlFor="avatar" className="text-left">
-              avatar
-            </Label>
-            <Input
-              id="avatar_url"
-              value={profilePayload.avatar_url}
-              className="col-span-3"
-              onChange={(event) => handleProfileInfoUpdate(event)}
-            />
-          </div>
+ 
+
           <div className=" grid grid-cols-4 items-center gap-x-1">
             <Label htmlFor="phone" className="text-left">
               Phone Number

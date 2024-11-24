@@ -8,7 +8,7 @@
   ],
   "env": {
     "VITE_SUPABASE_URL": "https://lphvmshtnpncjxpaiybr.supabase.co",
-    "VITE_SUPABASE_ANON_KEY":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+    "VITE_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
   },
   "routes": [
     {

@@ -1,10 +1,16 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export function AuthorAvatar() {
+type AuthorAvatarProps = {
+  avatar: string
+}
+
+const AuthorAvatar:React.FC<AuthorAvatarProps> = ({avatar})=> {
   return (
     <Avatar>
-      <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+      <AvatarImage src={avatar} alt="@shadcn" />
       <AvatarFallback>CN</AvatarFallback>
     </Avatar>
   );
 }
+
+export default AuthorAvatar
