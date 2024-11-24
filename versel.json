@@ -1,25 +1,19 @@
 {
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "package.json",
+      "use": "@vercel/react"
     }
   ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-store"
-        }
-      ]
-    }
-  ],
+  "env": {
+    "VITE_SUPABASE_URL": "https://lphvmshtnpncjxpaiybr.supabase.co",
+    "VITE_SUPABASE_ANON_KEY":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+  },
   "routes": [
     {
-      "src": "/public/(.*)",
-      "dest": "/public/$1"
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
