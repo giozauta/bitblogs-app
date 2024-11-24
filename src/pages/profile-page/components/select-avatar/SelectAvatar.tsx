@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/select";
 
 type SelectAvatarProps = {
-  handleAvatarChange: (value: string) => void; 
+  handleAvatarChange: (value: string) => void;
 };
 
 const SelectAfvatar: React.FC<SelectAvatarProps> = ({ handleAvatarChange }) => {

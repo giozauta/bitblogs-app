@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { userAtom } from "@/store/auth";
+import { userAtom, userIconAtom } from "@/store/auth";
 import { upsertProfileInfo } from "@/supabase/account";
 import { FileProfileInfoPayLoad } from "@/supabase/account/index.types";
 import { useMutation } from "@tanstack/react-query";
@@ -29,15 +29,14 @@ const EditProfile: React.FC<PropsWithChildren<{ refetch: () => void }>> = ({
   const [profilePayload, setProfilePayload] = useState({
     id: userId || "",
     full_name_en: "",
-    avatar_url:"",
+    avatar_url: "",
     full_name_ka: "",
     last_name_en: "",
     last_name_ka: "",
     phoneNumber: "",
   });
+  const [,setIconAtom]=useAtom(userIconAtom);
 
-
- 
   //for avatar
   const avatar = createAvatar(avataaars, {
     seed: selectedAvatar,
@@ -45,6 +44,8 @@ const EditProfile: React.FC<PropsWithChildren<{ refetch: () => void }>> = ({
   const svg = avatar.toString();
   const encodedSvg = encodeURIComponent(svg).replace(/%20/g, " ");
   const dataUrl = `data:image/svg+xml;charset=utf-8,${encodedSvg}`;
+
+
 
   const { mutate: handleProfileInfo, isError } = useMutation({
     mutationKey: ["upsertProfileInfo"],
@@ -68,8 +69,10 @@ const EditProfile: React.FC<PropsWithChildren<{ refetch: () => void }>> = ({
     const payload: FileProfileInfoPayLoad = {
       ...profilePayload,
       id: userId,
-      avatar_url: dataUrl
+      avatar_url: dataUrl,
     };
+    setIconAtom(dataUrl);
+
     alert("User info updated");
     handleProfileInfo(payload);
     setProfilePayload({
@@ -108,13 +111,12 @@ const EditProfile: React.FC<PropsWithChildren<{ refetch: () => void }>> = ({
           </DialogDescription>
         </DialogHeader>
         <div className=" grid grid-cols-4 items-center gap-x-1">
-            <img
-              src={dataUrl}
-              alt="Avatar"
-              style={{ width: "100px", height: "100px" }}
-            />
-            <SelectAfvatar handleAvatarChange={handleAvatarChange} />
-          </div>
+          <img
+            src={dataUrl}
+            alt="Avatar"
+          />
+          <SelectAfvatar handleAvatarChange={handleAvatarChange} />
+        </div>
         <div className=" grid gap-4 py-4 ">
           <div className=" grid grid-cols-4 items-center gap-x-1">
             <Label htmlFor="nameEn" className="text-left">
@@ -160,7 +162,6 @@ const EditProfile: React.FC<PropsWithChildren<{ refetch: () => void }>> = ({
               onChange={(event) => handleProfileInfoUpdate(event)}
             />
           </div>
- 
 
           <div className=" grid grid-cols-4 items-center gap-x-1">
             <Label htmlFor="phone" className="text-left">

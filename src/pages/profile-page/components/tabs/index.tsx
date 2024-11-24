@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import EditProfile from "../edit-profile";
-import  AuthorAvatar  from "../avatar";
+import AuthorAvatar from "../avatar";
 
 import React from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -15,10 +15,10 @@ const ProfileTabs: React.FC = () => {
     mutationKey: ["logout"],
     mutationFn: logout,
   });
-//
+  //
   const user = useAtom(userAtom);
   const userId = user[0]?.user.id ?? "";
-//
+  //
   const {
     data: profile,
     isError,
@@ -30,7 +30,7 @@ const ProfileTabs: React.FC = () => {
     enabled: !!userId,
   });
 
-  const avatar = profile?.avatar_url??"";
+  const avatar = profile?.avatar_url ?? "";
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading profile info.</p>;
@@ -57,7 +57,7 @@ const ProfileTabs: React.FC = () => {
           <TabsContent value="english">
             <div className="border flex flex-col md:flex-row items-center md:items-start mb-12 bg-card rounded-lg shadow-lg p-8">
               <div className=" p-10 flex justify-center items-center">
-                <AuthorAvatar avatar={avatar}/>
+                <AuthorAvatar avatar={avatar} />
               </div>
               <div className="authorEnBoxContent p-10">
                 <p>name : {profile?.full_name_en} </p>
@@ -69,7 +69,7 @@ const ProfileTabs: React.FC = () => {
           <TabsContent value="georgian">
             <div className="border flex flex-col md:flex-row items-center md:items-start mb-12 bg-card rounded-lg shadow-lg p-8">
               <div className=" p-10 flex justify-center items-center">
-              <AuthorAvatar avatar={avatar}/>
+                <AuthorAvatar avatar={avatar} />
               </div>
               <div className="authorEnBoxContent p-10">
                 <p>სახელი : {profile?.full_name_ka} </p>

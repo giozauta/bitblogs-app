@@ -7,3 +7,7 @@ interface User {
 }
 
 export const userAtom = atom<User | null>(null);
+
+
+
+export const userIconAtom = atom<string | null>(null);
