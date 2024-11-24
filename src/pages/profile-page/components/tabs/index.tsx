@@ -11,14 +11,13 @@ import { userAtom } from "@/store/auth";
 import { useAtom } from "jotai";
 
 const ProfileTabs: React.FC = () => {
-
   const { mutate: handleLogout } = useMutation({
     mutationKey: ["logout"],
     mutationFn: logout,
   });
 
   const user = useAtom(userAtom);
-  const userId = user[0]?.user.id??"";
+  const userId = user[0]?.user.id ?? "";
 
   const {
     data: profile,
@@ -34,7 +33,6 @@ const ProfileTabs: React.FC = () => {
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading profile info.</p>;
   if (!userId) return <p>User not authenticated.</p>;
-
   else {
     return (
       <div className="gap-10  flex mx-auto flex-col  justify-evenly h-[700px] w-[50%]">

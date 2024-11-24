@@ -17,10 +17,11 @@ import { useMutation } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { ChangeEvent, PropsWithChildren, useState } from "react";
 
-
-const EditProfile:React.FC<PropsWithChildren<{refetch:()=>void}>>=({refetch})=> {
+const EditProfile: React.FC<PropsWithChildren<{ refetch: () => void }>> = ({
+  refetch,
+}) => {
   const user = useAtom(userAtom);
-  const userId = user[0]?.user.id??"";
+  const userId = user[0]?.user.id ?? "";
 
   const [profilePayload, setProfilePayload] = useState({
     id: userId || "",
@@ -41,9 +42,7 @@ const EditProfile:React.FC<PropsWithChildren<{refetch:()=>void}>>=({refetch})=> 
     onError: (err) => {
       console.error("Error during upsert:", err);
     },
-
   });
-  
 
   const handleProfileInfoUpdate = (event: ChangeEvent<HTMLInputElement>) => {
     setProfilePayload({
@@ -55,7 +54,7 @@ const EditProfile:React.FC<PropsWithChildren<{refetch:()=>void}>>=({refetch})=> 
   const handleProfileInfoSubmit = () => {
     const payload: FileProfileInfoPayLoad = {
       ...profilePayload,
-      id: userId, 
+      id: userId,
     };
     alert("User info updated");
     handleProfileInfo(payload);
@@ -67,17 +66,15 @@ const EditProfile:React.FC<PropsWithChildren<{refetch:()=>void}>>=({refetch})=> 
       last_name_en: "",
       last_name_ka: "",
       phoneNumber: "",
-    })
-  
+    });
   };
 
-
-  if(isError){
+  if (isError) {
     return (
       <div>
         <p>Error updating profile info</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -99,7 +96,7 @@ const EditProfile:React.FC<PropsWithChildren<{refetch:()=>void}>>=({refetch})=> 
             </Label>
             <Input
               id="full_name_en"
-              value={profilePayload.full_name_en} 
+              value={profilePayload.full_name_en}
               className="col-span-3"
               onChange={(event) => handleProfileInfoUpdate(event)}
             />
@@ -160,16 +157,15 @@ const EditProfile:React.FC<PropsWithChildren<{refetch:()=>void}>>=({refetch})=> 
               onChange={(event) => handleProfileInfoUpdate(event)}
             />
           </div>
-        </div>       
+        </div>
         <DialogFooter>
           <Button onClick={handleProfileInfoSubmit} type="submit">
             Save changes
           </Button>
-   
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
-}
+};
 
 export default EditProfile;

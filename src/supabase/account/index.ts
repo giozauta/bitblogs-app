@@ -4,7 +4,7 @@ import { FileProfileInfoPayLoad } from "./index.types";
 export const upsertProfileInfo = async (value: FileProfileInfoPayLoad) => {
   try {
     const { data, error } = await supabase
-      .from('profiles')
+      .from("profiles")
       .upsert(value)
       .select();
 
@@ -18,7 +18,6 @@ export const upsertProfileInfo = async (value: FileProfileInfoPayLoad) => {
     throw new Error(`Failed to upsert profile info: ${error}`);
   }
 };
-
 
 export const getProfileInfo = async (
   id: string,
