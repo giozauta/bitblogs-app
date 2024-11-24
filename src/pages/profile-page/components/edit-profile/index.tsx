@@ -11,43 +11,74 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { userAtom } from "@/store/auth";
-import { fillProfileInfo } from "@/supabase/account";
+import { upsertProfileInfo } from "@/supabase/account";
 import { FileProfileInfoPayLoad } from "@/supabase/account/index.types";
 import { useMutation } from "@tanstack/react-query";
 import { useAtom } from "jotai";
+import { ChangeEvent, PropsWithChildren, useState } from "react";
 
-import { ChangeEvent, useState } from "react";
 
+const EditProfile:React.FC<PropsWithChildren<{refetch:()=>void}>>=({refetch})=> {
+  const user = useAtom(userAtom);
+  const userId = user[0]?.user.id??"";
 
-export function AuthorDialog() {
- const user = useAtom(userAtom);
- console.log(user)
-
-  const [profilePayload, setProfilePayload] = useState<FileProfileInfoPayLoad>({
-    id:"",
-    avatar_url: "",
+  const [profilePayload, setProfilePayload] = useState({
+    id: userId || "",
     full_name_en: "",
+    avatar_url: "",
     full_name_ka: "",
     last_name_en: "",
     last_name_ka: "",
-    username: "",
     phoneNumber: "",
+  });
 
-})
+  const { mutate: handleProfileInfo, isError } = useMutation({
+    mutationKey: ["upsertProfileInfo"],
+    mutationFn: upsertProfileInfo,
+    onSuccess: () => {
+      refetch();
+    },
+    onError: (err) => {
+      console.error("Error during upsert:", err);
+    },
 
-const {mutate:handleFillProfileInfo} = useMutation({
-    mutationKey: ["fill-profile-info"],
-    mutationFn:fillProfileInfo,
-})
+  });
+  
 
-const handleProfileInfoUpdate = (event: ChangeEvent<HTMLInputElement>) =>{
-  setProfilePayload({...profilePayload,[event.target.id]:event.target.value})
-}
+  const handleProfileInfoUpdate = (event: ChangeEvent<HTMLInputElement>) => {
+    setProfilePayload({
+      ...profilePayload,
+      [event.target.id]: event.target.value,
+    });
+  };
 
-const handleProfileInfoSubmit = () => {
+  const handleProfileInfoSubmit = () => {
+    const payload: FileProfileInfoPayLoad = {
+      ...profilePayload,
+      id: userId, 
+    };
+    alert("User info updated");
+    handleProfileInfo(payload);
+    setProfilePayload({
+      id: userId || "",
+      full_name_en: "",
+      avatar_url: "",
+      full_name_ka: "",
+      last_name_en: "",
+      last_name_ka: "",
+      phoneNumber: "",
+    })
+  
+  };
 
-  handleFillProfileInfo({ ...profilePayload, id: user[0]?.user.id });
-};
+
+  if(isError){
+    return (
+      <div>
+        <p>Error updating profile info</p>
+      </div>
+    )
+  }
 
   return (
     <Dialog>
@@ -68,9 +99,9 @@ const handleProfileInfoSubmit = () => {
             </Label>
             <Input
               id="full_name_en"
-              defaultValue="Name in English"
+              value={profilePayload.full_name_en} 
               className="col-span-3"
-              onChange={(event)=>handleProfileInfoUpdate(event)}
+              onChange={(event) => handleProfileInfoUpdate(event)}
             />
           </div>
           <div className=" grid grid-cols-4 items-center gap-x-1">
@@ -79,9 +110,9 @@ const handleProfileInfoSubmit = () => {
             </Label>
             <Input
               id="full_name_ka"
-              defaultValue="Name in Georgian"
+              value={profilePayload.full_name_ka}
               className="col-span-3"
-              onChange={(event)=>handleProfileInfoUpdate(event)}
+              onChange={(event) => handleProfileInfoUpdate(event)}
             />
           </div>
           <div className=" grid grid-cols-4 items-center gap-x-1">
@@ -90,9 +121,9 @@ const handleProfileInfoSubmit = () => {
             </Label>
             <Input
               id="last_name_en"
-              defaultValue="last Name in english"
+              value={profilePayload.last_name_en}
               className="col-span-3"
-              onChange={(event)=>handleProfileInfoUpdate(event)}
+              onChange={(event) => handleProfileInfoUpdate(event)}
             />
           </div>
           <div className=" grid grid-cols-4 items-center gap-x-1">
@@ -101,16 +132,21 @@ const handleProfileInfoSubmit = () => {
             </Label>
             <Input
               id="last_name_ka"
-              defaultValue="last Name in Georgian"
+              value={profilePayload.last_name_ka}
               className="col-span-3"
-              onChange={(event)=>handleProfileInfoUpdate(event)}
+              onChange={(event) => handleProfileInfoUpdate(event)}
             />
           </div>
           <div className=" grid grid-cols-4 items-center gap-x-1">
             <Label htmlFor="avatar" className="text-left">
               avatar
             </Label>
-            <Input id="avatar_url" defaultValue="avatar" className="col-span-3" />
+            <Input
+              id="avatar_url"
+              value={profilePayload.avatar_url}
+              className="col-span-3"
+              onChange={(event) => handleProfileInfoUpdate(event)}
+            />
           </div>
           <div className=" grid grid-cols-4 items-center gap-x-1">
             <Label htmlFor="phone" className="text-left">
@@ -119,16 +155,21 @@ const handleProfileInfoSubmit = () => {
             <Input
               type="text"
               id="phoneNumber"
-              defaultValue="Phone Number"
+              value={profilePayload.phoneNumber}
               className="col-span-3"
-              onChange={(event)=>handleProfileInfoUpdate(event)}
+              onChange={(event) => handleProfileInfoUpdate(event)}
             />
           </div>
-        </div>
+        </div>       
         <DialogFooter>
-          <Button onClick={handleProfileInfoSubmit} type="submit">Save changes</Button>
+          <Button onClick={handleProfileInfoSubmit} type="submit">
+            Save changes
+          </Button>
+   
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
 }
+
+export default EditProfile;

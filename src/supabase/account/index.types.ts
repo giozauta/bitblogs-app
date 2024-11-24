@@ -1,10 +1,9 @@
 export type FileProfileInfoPayLoad = {
   id: string;
-  username: string;
-  full_name_ka: string;
-  full_name_en: string;
-  last_name_ka: string;
-  last_name_en: string;
-  phoneNumber: string;
-  avatar_url: string;
+  full_name_en: string | null;
+  avatar_url: string | null;
+  full_name_ka: string | null;
+  last_name_en: string | null;
+  last_name_ka: string | null;
+  phoneNumber: string | null;
 };

@@ -1,6 +1,6 @@
 import "./App.css";
 import React, { Suspense, useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import DefaultLayout from "./layouts/default/DefaultLayout";
 import Authorization from "./pages/login-in/Login";
 import Registration from "./pages/sign-up/SignUp";
@@ -8,7 +8,7 @@ import HomeAuthorView from "./pages/home/views/home-author";
 import ProfilePage from "./pages/profile-page";
 import { supabase } from "./supabase";
 import { userAtom } from "@/store/auth";
-import {  useSetAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import AuthGuard from "./components/auth-gurad";
 import LoginGuard from "./components/login-guard";
 
@@ -22,8 +22,6 @@ const AboutListViews = React.lazy(
 
 function App() {
   const setUser = useSetAtom(userAtom);
-
-
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -72,7 +70,6 @@ function App() {
               </AuthGuard>
             }
           />
-          <Route path="" element={<Navigate to="home" />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

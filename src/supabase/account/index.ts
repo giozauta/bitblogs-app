@@ -1,12 +1,39 @@
 import { supabase } from "@/supabase";
+import { FileProfileInfoPayLoad } from "./index.types";
 
-export const fillProfileInfo = async (values: unknown) => {
- console.log(values)
-  return supabase.from("profiles").upsert(values).throwOnError();
+export const upsertProfileInfo = async (value: FileProfileInfoPayLoad) => {
+  try {
+    const { data, error } = await supabase
+      .from('profiles')
+      .upsert(value)
+      .select();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error in upsertProfileInfo:", error);
+    throw new Error(`Failed to upsert profile info: ${error}`);
+  }
 };
 
-export const getProfileInfo = (id: string | number) => {
-  return supabase.from("profiles").select("*").eq("id",id);
+
+export const getProfileInfo = async (
+  id: string,
+): Promise<FileProfileInfoPayLoad | null> => {
+  try {
+    const response = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", id)
+      .single();
+    if (response.error) {
+      throw new Error(response.error.message);
+    }
+    return response.data;
+  } catch (error) {
+    throw new Error(`Failed to fetch profile info: ${error}`);
+  }
 };
-
-
