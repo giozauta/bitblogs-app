@@ -6,5 +6,13 @@
   "login": "შესვლა",
   "forgetPassword": "დაგავიწყდა პაროლი?",
   "signUpText": "არ გაქვს ექაუნთი?",
-  "signUp": "რეგისტრაცია"
+  "signUp": "რეგისტრაცია",
+
+  "emailRequiredError": "აუცილებელია შეავსოთ ელ.ფოსტა",
+  "emailMinLengthError": "ელ.ფოსტა უნდა შედგებოდეს მინიმუმ 10 სიმბოლოსგან",
+  "emailMaxLengthError": "ელ.ფოსტა უნდა შედგებოდეს მაქსიმუმ 50 სიმბოლოსგან",
+
+  "passwordRequiredError": "პაროლი აუცილებელია",
+  "passwordMinLengthError": "პაროლი უნდა შედგებოდეს მინიმუმ 10 სიმბოლოსგან",
+  "passwordMaxLengthError": "პაროლი უნდა შედგებოდეს მაქსიმუმ 50 სიმბოლოსგან"
 }
