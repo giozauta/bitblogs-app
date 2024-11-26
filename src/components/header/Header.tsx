@@ -6,8 +6,7 @@ import { Link } from "react-router-dom";
 import { useAtomValue } from "jotai";
 import { userAtom, userIconAtom } from "@/store/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { useQuery } from "@tanstack/react-query";
-import { getProfileInfo } from "@/supabase/account";
+
 
 const Header: React.FC = () => {
   const { t } = useTranslation();
@@ -17,12 +16,7 @@ const Header: React.FC = () => {
   const user = useAtomValue(userAtom);
   const userIcon = useAtomValue(userIconAtom);
 
-  const { data: userAcon } = useQuery({
-    queryKey: ["userAcon"],
-    queryFn: () => getProfileInfo(user?.user.id ?? ""),
-  });
 
-  const avatar = userAcon?.avatar_url ?? "";
 
   return (
     <div className="header border-b">
@@ -76,10 +70,10 @@ const Header: React.FC = () => {
               </div>
             </Link>
           ) : (
-            <Link to="/profilePage">
-              <Avatar className="relative flex shrink-0 overflow-hidden rounded-full w-10 h-10">
-                <AvatarImage src={userIcon ?? avatar} />
-                <AvatarFallback></AvatarFallback>
+            <Link className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full justify-center items-center border-2 border-blue-500"  to="/profilePage">
+              <Avatar >
+                <AvatarImage className="w-full h-full"  src={userIcon ?? ""} />
+                <AvatarFallback>AV</AvatarFallback>
               </Avatar>
             </Link>
           )}
