@@ -1,4 +1,4 @@
-import LoginInputForm from "./components/login-input-form"
+import LoginInputForm from "./components/login-input-form";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -18,7 +18,6 @@ const Authorization: React.FC = () => {
         </div>
         <div className="inputFormBox p-6 pt-0  ">
           <LoginInputForm />
-
         </div>
         <div className={"items-center p-6 pt-0 flex justify-between"}>
           <Link

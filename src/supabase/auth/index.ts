@@ -1,6 +1,6 @@
 import { supabase } from "../index";
 
-export const register = ({
+export const signUp = ({
   email,
   password,
 }: {
@@ -8,10 +8,17 @@ export const register = ({
   password: string;
   confirmPassword: string;
 }) => {
-  return supabase.auth.signUp({
-    email,
-    password,
-  });
+  return supabase.auth
+    .signUp({
+      email,
+      password,
+    })
+    .then((res) => {
+      if (res.error) {
+        throw new Error(res.error.message);
+      }
+      return res;
+    });
 };
 
 export const login = ({

@@ -13,6 +13,6 @@
   "emailMaxLengthError": "ელ.ფოსტა უნდა შედგებოდეს მაქსიმუმ 50 სიმბოლოსგან",
 
   "passwordRequiredError": "პაროლი აუცილებელია",
-  "passwordMinLengthError": "პაროლი უნდა შედგებოდეს მინიმუმ 10 სიმბოლოსგან",
+  "passwordMinLengthError": "პაროლი უნდა შედგებოდეს მინიმუმ 6 სიმბოლოსგან",
   "passwordMaxLengthError": "პაროლი უნდა შედგებოდეს მაქსიმუმ 50 სიმბოლოსგან"
 }

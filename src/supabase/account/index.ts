@@ -22,7 +22,7 @@ export const upsertProfileInfo = async (value: FileProfileInfoPayLoad) => {
 export const getProfileInfo = async (
   id: string,
 ): Promise<FileProfileInfoPayLoad | null> => {
-  if(id === "") return null
+  if (id === "") return null;
   try {
     const response = await supabase
       .from("profiles")

@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { SignUpForm } from "./components/sign-up/SignUpForm";
+import SignUpForm from "./components/sign-up-form";
 import { Link } from "react-router-dom";
 const Registration: React.FC = () => {
   const { t } = useTranslation();
@@ -19,7 +19,6 @@ const Registration: React.FC = () => {
         <div className="registrationContainerFormBox p-6 pt-0">
           <SignUpForm />
         </div>
-
         <div className="items-center p-6 pt-0 flex justify-center">
           <p className="text-sm text-muted-foreground">
             {t("registration.signUpText")}

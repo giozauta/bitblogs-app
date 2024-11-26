@@ -1,68 +1,120 @@
 import { login } from "@/supabase/auth";
 import { useMutation } from "@tanstack/react-query";
-import { useForm} from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 type Inputs = {
-    email:string,
-    password:string
-}
+  email: string;
+  password: string;
+};
 
-const LoginInputForm:React.FC = () => {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
-    const { register, handleSubmit ,formState} = useForm<Inputs>();
+const LoginInputForm: React.FC = () => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { control, handleSubmit } = useForm<Inputs>({
+    defaultValues: { email: "", password: "" },
+  });
 
-console.log(formState.errors)
-    
+  const { mutate: handleLogin } = useMutation({
+    mutationKey: ["login"],
+    mutationFn: login,
+    onSuccess: () => {
+      navigate("/profilePage");
+    },
+    onError: (error) => {
+      alert(t("authorisation.error"));
+      console.log(error);
+    },
+  });
 
-    const { mutate: handleLogin } = useMutation({
-        mutationKey: ["login"],
-        mutationFn: login,
-        onSuccess: () => {
-          navigate("/profilePage");
-        },
-        onError: (error) => {
-          alert("იუზერი ან პაროლი არასწორია");
-          console.log(error);
-        },
-      });
-
-
-    const onSubmit = (fieldValues:Inputs) => {
-        handleLogin(fieldValues)
+  const onSubmit = (fieldValues: Inputs) => {
+    if (fieldValues.email == "" && fieldValues.password == "") {
+      return;
     }
-  
-    return (
-      <form className=" flex flex-col justify-center w-full space-y-6" >
-        <label 
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">{t("authorisation.email")}
-        </label>
-        <input 
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-            {...register("email",{required:true,maxLength:50,minLength:5})}
-        />
-        {formState.errors.email?.type==="required"&&<p className="text-red-500">{t("authorisation.emailRequiredError")}</p>}
-        {formState.errors.email?.type==="minLength"&&<p className="text-red-500">{t("authorisation.emailMinLengthError")}</p>}
-        {formState.errors.email?.type==="maxLength"&&<p className="text-red-500">{t("authorisation.emailMaxLengthError")}</p>}
-        <label 
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">{t("authorisation.password")}
-        </label>
-        <input 
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-            {...register("password",{required:true,maxLength:50,minLength:5})}
-        />
-        {formState.errors.email?.type==="required"&&<p className="text-red-500">{t("authorisation.passwordRequiredError")}</p>}
-        {formState.errors.email?.type==="minLength"&&<p className="text-red-500">{t("authorisation.passwordMinLengthError")}</p>}
-        {formState.errors.email?.type==="maxLength"&&<p className="text-red-500">{t("authorisation.passwordMaxLengthError")}</p>}
-        <button
-            onClick={handleSubmit(onSubmit)}
-            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 text-primary-foreground shadow h-9 px-4 py-2 w-full bg-blue-500 hover:bg-blue-700"
-        >Log in
-        </button>
-      </form>
-      )
-}
+    handleLogin(fieldValues);
+  };
 
-export default LoginInputForm
+  return (
+    <form className=" flex flex-col justify-center w-full space-y-6">
+      <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+        {t("authorisation.email")}
+      </label>
+      <Controller
+        name="email"
+        control={control}
+        rules={{ required: true, minLength: 10, maxLength: 50 }}
+        render={({ field, fieldState: { error } }) => {
+          return (
+            <>
+              <input
+                onChange={field.onChange} // ეს იგივეა რომ გავსფრიდოთ {...field}
+                value={field.value} //ეს იგივეა რომ გავსფრიდოთ {...field}
+                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+              />
+
+              {error?.type === "required" && (
+                <p className="text-red-500">
+                  {t("authorisation.emailRequiredError")}
+                </p>
+              )}
+              {error?.type === "minLength" && (
+                <p className="text-red-500">
+                  {t("authorisation.emailMinLengthError")}
+                </p>
+              )}
+              {error?.type === "maxLength" && (
+                <p className="text-red-500">
+                  {t("authorisation.emailMaxLengthError")}
+                </p>
+              )}
+            </>
+          );
+        }}
+      />
+
+      <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+        {t("authorisation.password")}
+      </label>
+      <Controller
+        name="password"
+        control={control}
+        rules={{ required: true, minLength: 6, maxLength: 50 }}
+        render={({ field, fieldState: { error } }) => {
+          return (
+            <>
+              <input
+                {...field} //იგივეა რომ ამოგვეღო ცალცალკე onChange={field.onChange} value={field.value}
+                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+              />
+              {error?.type === "required" && (
+                <p className="text-red-500">
+                  {t("authorisation.passwordRequiredError")}
+                </p>
+              )}
+              {error?.type === "minLength" && (
+                <p className="text-red-500">
+                  {t("authorisation.passwordMinLengthError")}
+                </p>
+              )}
+              {error?.type === "maxLength" && (
+                <p className="text-red-500">
+                  {t("authorisation.passwordMaxLengthError")}
+                </p>
+              )}
+            </>
+          );
+        }}
+      />
+      {}
+      <button
+        onClick={handleSubmit(onSubmit)}
+        className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 text-primary-foreground shadow h-9 px-4 py-2 w-full bg-blue-500 hover:bg-blue-700"
+      >
+        Log in
+      </button>
+    </form>
+  );
+};
+
+export default LoginInputForm;
