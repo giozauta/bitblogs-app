@@ -1,12 +1,23 @@
 {
-    "editProfile": "Edit Profile",
-    "nameEn":"Name En",
-    "nameKa:":"Name Ka",
-    "lastNameEn":"Last Name En",
-    "lastNameKa":"Last Name Ka",
-    "phoneNumber":"Phone Number",
+  "editProfile": "Edit Profile",
+  "instruction": "Make changes to your profile here. Click save when you're done.",
+  "nameEnglish": "Name En",
+  "nameGe": "Name Ka",
+  "lastNameEnglish": "Last Name En",
+  "lastNameGeorgian": "Last Name Ka",
+  "phoneNumber": "Phone Number",
+  "save": "Save",
+  "logout": "Logout",
 
-    "nameError": "Name is required",
-    "lastNameError": "Last Name is required",
-    "phoneNumberError": "Phone Number is required"
+  "nameError": "Name is required",
+  "nameMinLengthError": "Name must be at least 2 characters long",
+  "nameMaxLengthError": "Name must be at most 50 characters long",
+
+  "lastNameError": "Last Name is required",
+  "lastNameMinLengthError": "Last Name must be at least 2 characters long",
+  "lastNameMaxLengthError": "Last Name must be at most 50 characters long",
+
+  "phoneNumberError": "Phone Number is required",
+  "phoneNumberMinLengthError": "Phone Number must be at least 8 characters long",
+  "phoneNumberMaxLengthError": "Phone Number must be at most 50 characters long"
 }

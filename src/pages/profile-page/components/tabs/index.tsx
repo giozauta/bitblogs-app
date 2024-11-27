@@ -8,6 +8,7 @@ import { getProfileInfo } from "@/supabase/account";
 import { userAtom } from "@/store/auth";
 import { useAtom } from "jotai";
 import EditProfileInfo from "../edit-profile-info";
+import { useTranslation } from "react-i18next";
 
 const ProfileTabs: React.FC = () => {
   const { mutate: handleLogout } = useMutation({
@@ -28,7 +29,9 @@ const ProfileTabs: React.FC = () => {
     queryFn: () => getProfileInfo(userId),
     enabled: !!userId,
   });
-
+//
+const { t } = useTranslation();
+//
   const avatar = profile?.avatar_url ?? "";
 
   if (isLoading) return <p>Loading...</p>;
@@ -96,7 +99,7 @@ const ProfileTabs: React.FC = () => {
           onClick={() => handleLogout()}
           className=" inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 border-red-600"
         >
-          Logout
+          {t("editProfiles.logout")}
         </Link>
       </div>
     );

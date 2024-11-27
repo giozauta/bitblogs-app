@@ -1,13 +1,23 @@
 {
-    "editProfile": "პროფილის ცვლილება",
-    "nameEn":"სახელი.ინგ",
-    "nameKa:":"სახელი.ქარ",
-    "lastNameEn":"გვარი.ინგ",
-    "lastNameKa":"გვარი.ქარ",
-    "phoneNumber":"ტელეფონის.ნომ",
+  "editProfile": "პროფილის ცვლილება",
+  "instruction": "შეცვალე პროფილის მონაცემები და დააკლიკე შენახვას",
+  "nameEnglish": "სახელი.ინგ",
+  "nameGe": "სახელი.ქარ",
+  "lastNameEnglish": "გვარი.ინგ",
+  "lastNameGeorgian": "გვარი.ქარ",
+  "phoneNumber": "ტელ.ნომ",
+  "save": "შენახვა",
+  "logout": "გასვლა",
 
+  "nameError": "სახელი აუცილებელია",
+  "nameMinLengthError": "სახელი უნდა შედგებოდეს მინიმუმ 2 ასოსგან",
+  "nameMaxLengthError": "სახელი უნდა შედგებოდეს მაქსიმუმ 50 ასოსგან",
 
-    "nameError": "სახელი აუცილებელია",
-    "lastNameError": "გვარი აუცილებელია",
-    "phoneNumberError": "ტელეფონის ნომ აუცილებელია"
+  "lastNameError": "გვარი აუცილებელია",
+  "lastNameMinLengthError": "გვარი უნდა შედგებოდეს მინიმუმ 2 ასოსგან",
+  "lastNameMaxLengthError": "გვარი უნდა შედგებოდეს მაქსიმუმ 50 ასოსგან",
+
+  "phoneNumberError": "ტელეფონის ნომ აუცილებელია",
+  "phoneNumberMinLengthError": "ტელეფონის ნომერი უნდა შედგებოდეს მინიმუმ 8 ასოსგან",
+  "phoneNumberMaxLengthError": "ტელეფონის ნომერი უნდა შედგებოდეს მაქსიმუმ 50 ასოსგან"
 }

@@ -15,6 +15,4 @@
   "passwordRequiredError": "Password is required",
   "passwordMinLengthError": "Password must be at least 6 characters long",
   "passwordMaxLengthError": "Password must be at most 50 characters long"
-
-
 }
