@@ -1,7 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import EditProfile from "../edit-profile";
 import AuthorAvatar from "../avatar";
-
 import React from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { logout } from "@/supabase/auth";
@@ -9,6 +7,7 @@ import { Link } from "react-router-dom";
 import { getProfileInfo } from "@/supabase/account";
 import { userAtom } from "@/store/auth";
 import { useAtom } from "jotai";
+import EditProfileInfo from "../edit-profile-info";
 
 const ProfileTabs: React.FC = () => {
   const { mutate: handleLogout } = useMutation({
@@ -39,7 +38,7 @@ const ProfileTabs: React.FC = () => {
     return (
       <div className="gap-10  flex mx-auto flex-col  justify-evenly h-[700px] w-[50%]">
         <div className="bg-blue-500 p-[1px] rounded-lg justify-center gap-10  flex mx-auto flex-col  w-[100%]">
-          <EditProfile refetch={refetch} />
+          <EditProfileInfo refetch={refetch} />
         </div>
 
         <Tabs

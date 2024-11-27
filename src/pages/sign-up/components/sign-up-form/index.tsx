@@ -27,13 +27,10 @@ const SignUpForm: React.FC = () => {
   });
 
   const onSubmit = (fieldValues: Inputs) => {
-    if (
-      fieldValues.password !== fieldValues.confirmPassword
-    ) {
-        alert("Passwords do not match");
-        return;
+    if (fieldValues.password !== fieldValues.confirmPassword) {
+      alert("Passwords do not match");
+      return;
     }
-
 
     handleRegister(fieldValues);
   };

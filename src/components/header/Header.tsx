@@ -6,18 +6,34 @@ import { Link } from "react-router-dom";
 import { useAtomValue } from "jotai";
 import { userAtom, userIconAtom } from "@/store/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-
+import { useQuery } from "@tanstack/react-query";
+import { getProfileInfo } from "@/supabase/account";
 
 const Header: React.FC = () => {
   const { t } = useTranslation();
   const handleChangeLanguage = (language: string) => {
     i18next.changeLanguage(language);
   };
+
+
   const user = useAtomValue(userAtom);
   const userIcon = useAtomValue(userIconAtom);
 
 
+  const {data:userIconData,error,isLoading} = useQuery({
+    queryKey: ["userIcon"],
+    queryFn: () => getProfileInfo(user?.user.id ?? ""),
+    enabled: !!user?.user.id,
+  })
 
+  if(isLoading){
+    return <div>Loading...</div>
+  }
+  if(error){
+    return <div>Error</div>
+  }
+
+  
   return (
     <div className="header border-b">
       <div className="header Container container mx-auto px-4 py-4 flex items-center justify-between">
@@ -70,9 +86,12 @@ const Header: React.FC = () => {
               </div>
             </Link>
           ) : (
-            <Link className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full justify-center items-center border-2 border-blue-500"  to="/profilePage">
-              <Avatar >
-                <AvatarImage className="w-full h-full"  src={userIcon ?? ""} />
+            <Link
+              className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full justify-center items-center border-2 border-blue-500"
+              to="/profilePage"
+            >
+              <Avatar>
+                <AvatarImage className="w-full h-full" src={userIcon??userIconData?.avatar_url} />
                 <AvatarFallback>AV</AvatarFallback>
               </Avatar>
             </Link>

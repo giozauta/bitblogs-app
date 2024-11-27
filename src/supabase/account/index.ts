@@ -19,6 +19,7 @@ export const upsertProfileInfo = async (value: FileProfileInfoPayLoad) => {
   }
 };
 
+
 export const getProfileInfo = async (
   id: string,
 ): Promise<FileProfileInfoPayLoad | null> => {
