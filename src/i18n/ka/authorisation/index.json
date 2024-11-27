@@ -15,4 +15,8 @@
   "passwordRequiredError": "პაროლი აუცილებელია",
   "passwordMinLengthError": "პაროლი უნდა შედგებოდეს მინიმუმ 6 სიმბოლოსგან",
   "passwordMaxLengthError": "პაროლი უნდა შედგებოდეს მაქსიმუმ 50 სიმბოლოსგან"
+
+
+
+
 }

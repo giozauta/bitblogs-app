@@ -17,6 +17,7 @@ import { upsertProfileInfo } from "@/supabase/account";
 import { useAtom } from "jotai";
 import { userAtom, userIconAtom } from "@/store/auth";
 import { FileProfileInfoPayLoad } from "@/supabase/account/index.types";
+import { useTranslation } from "react-i18next";
 
 type avatarURl = {
   value: string;
@@ -25,7 +26,7 @@ type avatarURl = {
 
 type Inputs = {
   id: string;
-  avatar_url:avatarURl
+  avatar_url: avatarURl;
   full_name_en: string;
   full_name_ka: string;
   last_name_en: string;
@@ -37,11 +38,7 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
   const user = useAtom(userAtom);
   const userId = user[0]?.user.id ?? "";
   const [, setIconAtom] = useAtom(userIconAtom);
-  const {
-    control,
-    handleSubmit,
-    watch,
-  } = useForm<Inputs>({
+  const { control, handleSubmit, watch } = useForm<Inputs>({
     defaultValues: {
       id: userId,
       avatar_url: { value: "", label: "" },
@@ -52,13 +49,14 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
       phoneNumber: "",
     },
   });
-
   const avatar = createAvatar(avataaars, {
-    seed:watch("avatar_url").value,
+    seed: watch("avatar_url").value,
   });
   const svg = avatar.toString();
   const encodedSvg = encodeURIComponent(svg).replace(/%20/g, " ");
   const dataUrl = `data:image/svg+xml;charset=utf-8,${encodedSvg}`;
+  const { t } = useTranslation();
+
 
   const { mutate: handleProfileInfo } = useMutation({
     mutationKey: ["upsertProfileInfo"],
@@ -76,12 +74,11 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
       ...formFields,
       id: userId,
       avatar_url: dataUrl,
-    }; 
-console.log(dataUrl)
+    };
+    console.log(dataUrl);
     handleProfileInfo(payload);
     setIconAtom(dataUrl);
   };
-
 
   return (
     <Dialog>
@@ -104,7 +101,7 @@ console.log(dataUrl)
               control={control}
               render={({ field }) => (
                 <Select
-                className="col-span-3"
+                  className="col-span-3"
                   {...field}
                   options={[
                     { value: "Leo", label: "Leo" },
@@ -116,7 +113,6 @@ console.log(dataUrl)
                 />
               )}
             />
-
           </div>
 
           <div className=" grid gap-4 py-4 ">
@@ -125,6 +121,7 @@ console.log(dataUrl)
                 htmlFor="full_name_en"
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-left"
               >
+                 {t("authorisation.nameEn")}
                 Name En
               </label>
               <Controller

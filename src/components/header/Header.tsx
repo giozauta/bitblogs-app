@@ -15,25 +15,26 @@ const Header: React.FC = () => {
     i18next.changeLanguage(language);
   };
 
-
   const user = useAtomValue(userAtom);
   const userIcon = useAtomValue(userIconAtom);
 
-
-  const {data:userIconData,error,isLoading} = useQuery({
+  const {
+    data: userIconData,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: ["userIcon"],
     queryFn: () => getProfileInfo(user?.user.id ?? ""),
     enabled: !!user?.user.id,
-  })
+  });
 
-  if(isLoading){
-    return <div>Loading...</div>
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
-  if(error){
-    return <div>Error</div>
+  if (error) {
+    return <div>Error</div>;
   }
 
-  
   return (
     <div className="header border-b">
       <div className="header Container container mx-auto px-4 py-4 flex items-center justify-between">
@@ -91,7 +92,10 @@ const Header: React.FC = () => {
               to="/profilePage"
             >
               <Avatar>
-                <AvatarImage className="w-full h-full" src={userIcon??userIconData?.avatar_url} />
+                <AvatarImage
+                  className="w-full h-full"
+                  src={userIcon ?? userIconData?.avatar_url}
+                />
                 <AvatarFallback>AV</AvatarFallback>
               </Avatar>
             </Link>

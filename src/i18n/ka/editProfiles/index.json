@@ -1,0 +1,13 @@
+{
+    "editProfile": "პროფილის ცვლილება",
+    "nameEn":"სახელი.ინგ",
+    "nameKa:":"სახელი.ქარ",
+    "lastNameEn":"გვარი.ინგ",
+    "lastNameKa":"გვარი.ქარ",
+    "phoneNumber":"ტელეფონის.ნომ",
+
+
+    "nameError": "სახელი აუცილებელია",
+    "lastNameError": "გვარი აუცილებელია",
+    "phoneNumberError": "ტელეფონის ნომ აუცილებელია"
+}

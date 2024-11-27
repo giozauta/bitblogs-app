@@ -1,0 +1,12 @@
+{
+    "editProfile": "Edit Profile",
+    "nameEn":"Name En",
+    "nameKa:":"Name Ka",
+    "lastNameEn":"Last Name En",
+    "lastNameKa":"Last Name Ka",
+    "phoneNumber":"Phone Number",
+
+    "nameError": "Name is required",
+    "lastNameError": "Last Name is required",
+    "phoneNumberError": "Phone Number is required"
+}
