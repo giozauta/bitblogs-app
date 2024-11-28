@@ -29,9 +29,9 @@ const ProfileTabs: React.FC = () => {
     queryFn: () => getProfileInfo(userId),
     enabled: !!userId,
   });
-//
-const { t } = useTranslation();
-//
+  //
+  const { t } = useTranslation();
+  //
   const avatar = profile?.avatar_url ?? "";
 
   if (isLoading) return <p>Loading...</p>;

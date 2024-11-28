@@ -38,7 +38,12 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
   const user = useAtom(userAtom);
   const userId = user[0]?.user.id ?? "";
   const [, setIconAtom] = useAtom(userIconAtom);
-  const { control, handleSubmit, watch } = useForm<Inputs>({
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>({
     defaultValues: {
       id: userId,
       avatar_url: { value: "", label: "" },
@@ -57,12 +62,6 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
   const dataUrl = `data:image/svg+xml;charset=utf-8,${encodedSvg}`;
   const { t } = useTranslation();
 
-  //to listen input errors
-  const nameEn = watch("full_name_en");
-  const nameKa = watch("full_name_ka");
-  const lastNameEn = watch("last_name_en");
-  const lastNameKa = watch("last_name_ka");
-  const phoneNumber = watch("phoneNumber");
 
   const { mutate: handleProfileInfo } = useMutation({
     mutationKey: ["upsertProfileInfo"],
@@ -142,17 +141,14 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
                 }}
               />
               <div className="  w-full col-start-2 col-span-3 ">
-                {nameEn === "" && (
-                  <p className="text-red-500">{t("editProfiles.nameError")}</p>
-                )}
-                {nameEn.length < 2 && (
+                {errors.full_name_en && (
                   <p className="text-red-500">
-                    {t("editProfiles.nameMinLengthError")}
-                  </p>
-                )}
-                {nameEn.length > 50 && (
-                  <p className="text-red-500">
-                    {t("editProfiles.nameMaxLengthError")}
+                    {errors.full_name_en.type === "required" &&
+                      t("editProfiles.nameError")}
+                    {errors.full_name_en.type === "minLength" &&
+                      t("editProfiles.nameMinLengthError")}
+                    {errors.full_name_en.type === "maxLength" &&
+                      t("editProfiles.nameMaxLengthError")}
                   </p>
                 )}
               </div>
@@ -180,17 +176,14 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
                 }}
               />
               <div className="  w-full col-start-2 col-span-3 ">
-                {nameKa === "" && (
-                  <p className="text-red-500">{t("editProfiles.nameError")}</p>
-                )}
-                {nameKa.length < 2 && (
+              {errors.full_name_ka && (
                   <p className="text-red-500">
-                    {t("editProfiles.nameMinLengthError")}
-                  </p>
-                )}
-                {nameKa === "maxLength" && (
-                  <p className="text-red-500">
-                    {t("editProfiles.nameMaxLengthError")}
+                    {errors.full_name_ka.type === "required" &&
+                      t("editProfiles.nameError")}
+                    {errors.full_name_ka.type === "minLength" &&
+                      t("editProfiles.nameMinLengthError")}
+                    {errors.full_name_ka.type === "maxLength" &&
+                      t("editProfiles.nameMaxLengthError")}
                   </p>
                 )}
               </div>
@@ -207,30 +200,27 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
                 control={control}
                 rules={{ required: true, minLength: 10, maxLength: 50 }}
                 name="last_name_en"
-                render={({ field}) => {
+                render={({ field }) => {
                   return (
-          
-                      <input
-                        id="last_name_en"
-                        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm col-span-3"
-                        {...field}
-                      />
-
+                    <input
+                      id="last_name_en"
+                      className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm col-span-3"
+                      {...field}
+                    />
                   );
                 }}
               />
               <div className="  w-full col-start-2 col-span-3 ">
-                {lastNameEn === "" && (
-                  <p className="text-red-500">{t("editProfiles.lastNameError")}</p>
-                )}
-                {lastNameEn.length < 2 && (
+
+
+              {errors.last_name_en && (
                   <p className="text-red-500">
-                    {t("editProfiles.lastNameMinLengthError")}
-                  </p>
-                )}
-                {lastNameEn === "maxLength" && (
-                  <p className="text-red-500">
-                    {t("editProfiles.lastNameMaxLengthError")}
+                    {errors.last_name_en.type === "required" &&
+                      t("editProfiles.lastNameError")}
+                    {errors.last_name_en.type === "minLength" &&
+                      t("editProfiles.lastNameMinLengthError")}
+                    {errors.last_name_en.type === "maxLength" &&
+                      t("editProfiles.lastNameMaxLengthError")}
                   </p>
                 )}
               </div>
@@ -249,28 +239,23 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
                 name="last_name_ka"
                 render={({ field }) => {
                   return (
-           
-                      <input
-                        id="last_name_ka"
-                        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm col-span-3"
-                        {...field}
-                      />
-       
+                    <input
+                      id="last_name_ka"
+                      className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm col-span-3"
+                      {...field}
+                    />
                   );
                 }}
               />
               <div className="  w-full col-start-2 col-span-3 ">
-                {lastNameKa === "" && (
-                  <p className="text-red-500">{t("editProfiles.lastNameError")}</p>
-                )}
-                {lastNameKa.length < 2 && (
+              {errors.last_name_ka && (
                   <p className="text-red-500">
-                    {t("editProfiles.lastNameMinLengthError")}
-                  </p>
-                )}
-                {lastNameKa === "maxLength" && (
-                  <p className="text-red-500">
-                    {t("editProfiles.lastNameMaxLengthError")}
+                    {errors.last_name_ka.type === "required" &&
+                      t("editProfiles.lastNameError")}
+                    {errors.last_name_ka.type === "minLength" &&
+                      t("editProfiles.lastNameMinLengthError")}
+                    {errors.last_name_ka.type === "maxLength" &&
+                      t("editProfiles.lastNameMaxLengthError")}
                   </p>
                 )}
               </div>
@@ -289,38 +274,37 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
                 name="phoneNumber"
                 render={({ field }) => {
                   return (
-              
-                      <input
-                        id="phoneNumber"
-                        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm col-span-3"
-                        {...field}
-                      />
-
-            
+                    <input
+                      id="phoneNumber"
+                      className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm col-span-3"
+                      {...field}
+                    />
                   );
                 }}
               />
               <div className="  w-full col-start-2 col-span-3 ">
-                {phoneNumber === "" && (
-                  <p className="text-red-500">{t("editProfiles.phoneNumberError")}</p>
-                )}
-                {phoneNumber.length < 2 && (
+
+
+              {errors.phoneNumber && (
                   <p className="text-red-500">
-                    {t("editProfiles.phoneNumberMinLengthError")}
+                    {errors.phoneNumber.type === "required" &&
+                      t("editProfiles.phoneNumberError")}
+                    {errors.phoneNumber.type === "minLength" &&
+                      t("editProfiles.phoneNumberMinLengthError")}
+                    {errors.phoneNumber.type === "maxLength" &&
+                      t("editProfiles.phoneNumberMaxLengthError")}
                   </p>
                 )}
-                {phoneNumber === "maxLength" && (
-                  <p className="text-red-500">
-                    {t("editProfiles.phoneNumberMaxLengthError")}
-                  </p>
-                )}
+
               </div>
             </div>
           </div>
         </form>
 
         <DialogFooter>
-          <Button onClick={handleSubmit(onSubmit)}>{t("editProfiles.save")}</Button>
+          <Button onClick={handleSubmit(onSubmit)}>
+            {t("editProfiles.save")}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
