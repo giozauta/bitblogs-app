@@ -1,16 +1,43 @@
 {
-  "version": 2,
   "builds": [
     {
+      "src": "server.cjs",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "db.json",
+          "images/**/*",
+          "public/images/**/*",
+          "public/icons/**/*"
+        ]
+      }
+    },
+    {
       "src": "package.json",
-      "use": "@vercel/react"
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist",
+        "buildCommand": "npm run build"
+      }
     }
   ],
-  "env": {
-    "VITE_SUPABASE_URL": "https://lphvmshtnpncjxpaiybr.supabase.co",
-    "VITE_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
-  },
   "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "server.cjs"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "/images/(.*)",
+      "dest": "/public/images/$1"
+    },
+    {
+      "src": "/icons/(.*)",
+      "dest": "/public/icons/$1"
+    },
     {
       "src": "/(.*)",
       "dest": "/index.html"
