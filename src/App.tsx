@@ -11,6 +11,7 @@ import { userAtom } from "@/store/auth";
 import { useSetAtom } from "jotai";
 import AuthGuard from "./components/auth-gurad";
 import LoginGuard from "./components/login-guard";
+import Write from "./pages/write/Write";
 
 const HomeMainViews = React.lazy(
   () => import("./pages/home/views/home-main/index"),
@@ -67,6 +68,14 @@ function App() {
             element={
               <AuthGuard>
                 <ProfilePage />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="write"
+            element={
+              <AuthGuard>
+                <Write/>
               </AuthGuard>
             }
           />
