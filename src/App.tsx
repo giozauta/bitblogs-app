@@ -13,6 +13,7 @@ import AuthGuard from "./components/auth-gurad";
 import LoginGuard from "./components/login-guard";
 import Write from "./pages/write/Write";
 
+
 const HomeMainViews = React.lazy(
   () => import("./pages/home/views/home-main/index"),
 );
@@ -22,11 +23,13 @@ const AboutListViews = React.lazy(
 );
 
 function App() {
-  const setUser = useSetAtom(userAtom);
+const setUser = useSetAtom(userAtom)
 
+console.log(localStorage.getItem("user"))
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session);
+
     });
 
     const {
@@ -75,7 +78,7 @@ function App() {
             path="write"
             element={
               <AuthGuard>
-                <Write/>
+                <Write />
               </AuthGuard>
             }
           />

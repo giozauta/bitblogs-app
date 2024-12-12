@@ -1,46 +1,91 @@
-import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
+
+/* eslint-disable */
+// @ts-nocheck
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+
+import { supabase } from "@/supabase";
 
 type FormData = {
   title_ka: string;
   title_en: string;
   description_ka: string;
   description_en: string;
-  user_id: string;
-  image_url: FileList | null;
+  user_id: string|null;
+  image_file: File | null;
 };
 
 const Write: React.FC = () => {
-  const { control, handleSubmit, formState: { errors } } = useForm<FormData>({
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
     defaultValues: {
-      title_ka: '',
-      title_en: '',
-      description_ka: '',
-      description_en: '',
-      user_id: '',
-      image_url: null,
+      title_ka: "",
+      title_en: "",
+      description_ka: "",
+      description_en: "",
+      image_file: null,
     },
   });
+  const onSubmit = async (formValues: FormData) => {
+    if (formValues?.image_file) {
+      try {
+        const fileName = `${formValues.user_id}-${Date.now()}-${formValues.image_file.name}`;
 
-  // Handle form submission
-  const onSubmit = (data: FormData) => {
-    console.log('Form data submitted:', data);
+        const { data, error } = await supabase.storage
+          .from("blog_images")
+          .upload(fileName, formValues.image_file)
+
+
+          
+
+        if (error) {
+          console.error("Error uploading file:", error.message);
+        } else{
+          await supabase
+          .from("blogs")
+          .insert({
+           title_ka:formValues.title_ka,
+           title_en:formValues.title_en,
+           description_ka:formValues.description_ka,
+           description_en:formValues.description_en,
+           user_id:"ac24d99b-5b03-4f28-8287-62eeb8cf0a2d",
+           image_url:data?.fullPath,
+         }as any)
+          console.log("File uploaded successfully:", data);
+        }
+      } catch (error) {
+        console.error("Error during file upload:", error);
+      }
+    }
+
+    console.log("Form data submitted:", formValues);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-2xl mx-auto p-6 border rounded-lg shadow-lg bg-white dark:bg-gray-800 dark:border-gray-700">
-      
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-6 max-w-2xl mx-auto p-6 border rounded-lg shadow-lg bg-white dark:bg-gray-800 dark:border-gray-700"
+    >
       {/* Title (KA) */}
       <div>
-        <Label htmlFor="title_ka" className="block text-lg font-semibold text-gray-700 dark:text-gray-300">Title (KA)</Label>
+        <Label
+          htmlFor="title_ka"
+          className="block text-lg font-semibold text-gray-700 dark:text-gray-300"
+        >
+          Title (KA)
+        </Label>
         <Controller
           name="title_ka"
           control={control}
-          rules={{ required: 'Title in Georgian is required' }}
+          rules={{ required: "Title in Georgian is required" }}
           render={({ field }) => (
             <Input
               id="title_ka"
@@ -50,16 +95,23 @@ const Write: React.FC = () => {
             />
           )}
         />
-        {errors.title_ka && <p className="text-red-500 text-sm">{errors.title_ka.message}</p>}
+        {errors.title_ka && (
+          <p className="text-red-500 text-sm">{errors.title_ka.message}</p>
+        )}
       </div>
 
       {/* Title (EN) */}
       <div>
-        <Label htmlFor="title_en" className="block text-lg font-semibold text-gray-700 dark:text-gray-300">Title (EN)</Label>
+        <Label
+          htmlFor="title_en"
+          className="block text-lg font-semibold text-gray-700 dark:text-gray-300"
+        >
+          Title (EN)
+        </Label>
         <Controller
           name="title_en"
           control={control}
-          rules={{ required: 'Title in English is required' }}
+          rules={{ required: "Title in English is required" }}
           render={({ field }) => (
             <Input
               id="title_en"
@@ -69,12 +121,19 @@ const Write: React.FC = () => {
             />
           )}
         />
-        {errors.title_en && <p className="text-red-500 text-sm">{errors.title_en.message}</p>}
+        {errors.title_en && (
+          <p className="text-red-500 text-sm">{errors.title_en.message}</p>
+        )}
       </div>
 
       {/* Description (KA) */}
       <div>
-        <Label htmlFor="description_ka" className="block text-lg font-semibold text-gray-700 dark:text-gray-300">Description (KA)</Label>
+        <Label
+          htmlFor="description_ka"
+          className="block text-lg font-semibold text-gray-700 dark:text-gray-300"
+        >
+          Description (KA)
+        </Label>
         <Controller
           name="description_ka"
           control={control}
@@ -91,7 +150,12 @@ const Write: React.FC = () => {
 
       {/* Description (EN) */}
       <div>
-        <Label htmlFor="description_en" className="block text-lg font-semibold text-gray-700 dark:text-gray-300">Description (EN)</Label>
+        <Label
+          htmlFor="description_en"
+          className="block text-lg font-semibold text-gray-700 dark:text-gray-300"
+        >
+          Description (EN)
+        </Label>
         <Controller
           name="description_en"
           control={control}
@@ -106,41 +170,24 @@ const Write: React.FC = () => {
         />
       </div>
 
-      {/* User ID */}
-      <div>
-        <Label htmlFor="user_id" className="block text-lg font-semibold text-gray-700 dark:text-gray-300">User ID</Label>
-        <Controller
-          name="user_id"
-          control={control}
-          rules={{ required: 'User ID is required' }}
-          render={({ field }) => (
-            <Input
-              id="user_id"
-              {...field}
-              placeholder="Enter your User ID"
-              className="mt-2 p-3 w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300"
-            />
-          )}
-        />
-        {errors.user_id && <p className="text-red-500 text-sm">{errors.user_id.message}</p>}
-      </div>
-
       {/* Image URL (File Input) */}
       <div>
-        <Label htmlFor="image_url" className="block text-lg font-semibold text-gray-700 dark:text-gray-300">Image URL</Label>
+        <Label
+          htmlFor="image_file"
+          className="block text-lg font-semibold text-gray-700 dark:text-gray-300"
+        >
+          Image URL
+        </Label>
         <Controller
-          name="image_url"
+          name="image_file"
           control={control}
-          render={({ field:{onChange}}) => (
+          render={({ field: { onChange } }) => (
             <Input
-              id="image_url"
-
-              onChange={
-                (e)=>{
-                  const file = e.target.files?.[0]
-                  onChange(file)
-                }
-              }
+              id="image_file"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                onChange(file);
+              }}
               type="file"
               placeholder="Upload an image"
               className="mt-2 p-3 w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300"
@@ -162,3 +209,5 @@ const Write: React.FC = () => {
 };
 
 export default Write;
+
+

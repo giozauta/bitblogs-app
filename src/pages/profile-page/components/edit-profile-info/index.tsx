@@ -130,10 +130,10 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
               <Controller
                 control={control}
                 rules={{
-                  required:"nameError",
+                  required: "nameError",
                   minLength: {
                     value: 2,
-                    message:"nameMinLengthError",
+                    message: "nameMinLengthError",
                   },
                   maxLength: {
                     value: 50,
@@ -153,7 +153,9 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
               />
               <div className="  w-full col-start-2 col-span-3 ">
                 {errors.full_name_en && (
-                  <p className="text-red-500">{t(`editProfiles.${errors.full_name_en.message}`)}</p>
+                  <p className="text-red-500">
+                    {t(`editProfiles.${errors.full_name_en.message}`)}
+                  </p>
                 )}
               </div>
             </div>
@@ -168,14 +170,14 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
               <Controller
                 control={control}
                 rules={{
-                  required:"nameError",
+                  required: "nameError",
                   minLength: {
                     value: 2,
-                    message:"nameMinLengthError",
+                    message: "nameMinLengthError",
                   },
                   maxLength: {
                     value: 50,
-                    message:"nameMaxLengthError",
+                    message: "nameMaxLengthError",
                   },
                 }}
                 name="full_name_ka"
@@ -191,7 +193,9 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
               />
               <div className="  w-full col-start-2 col-span-3 ">
                 {errors.full_name_ka && (
-                  <p className="text-red-500">{t(`editProfiles.${errors.full_name_ka.message}`)}</p>
+                  <p className="text-red-500">
+                    {t(`editProfiles.${errors.full_name_ka.message}`)}
+                  </p>
                 )}
               </div>
             </div>
@@ -206,7 +210,7 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
               <Controller
                 control={control}
                 rules={{
-                  required:"lastNameError",
+                  required: "lastNameError",
                   minLength: {
                     value: 2,
                     message: "lastNameMinLengthError",
@@ -229,7 +233,9 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
               />
               <div className="  w-full col-start-2 col-span-3 ">
                 {errors.last_name_en && (
-                  <p className="text-red-500">{t(`editProfiles.${errors.last_name_en.message}`)}</p>
+                  <p className="text-red-500">
+                    {t(`editProfiles.${errors.last_name_en.message}`)}
+                  </p>
                 )}
               </div>
             </div>
@@ -267,7 +273,9 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
               />
               <div className="  w-full col-start-2 col-span-3 ">
                 {errors.last_name_ka && (
-                  <p className="text-red-500">{t(`editProfiles.${errors.last_name_ka.message}`)}</p>
+                  <p className="text-red-500">
+                    {t(`editProfiles.${errors.last_name_ka.message}`)}
+                  </p>
                 )}
               </div>
             </div>
@@ -285,11 +293,11 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
                   required: "phoneNumberError",
                   minLength: {
                     value: 2,
-                    message:"phoneNumberMinLengthError",
+                    message: "phoneNumberMinLengthError",
                   },
                   maxLength: {
                     value: 50,
-                    message:"phoneNumberMaxLengthError",
+                    message: "phoneNumberMaxLengthError",
                   },
                 }}
                 name="phoneNumber"
@@ -305,7 +313,9 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
               />
               <div className="  w-full col-start-2 col-span-3 ">
                 {errors.phoneNumber && (
-                  <p className="text-red-500">{t(`editProfiles.${errors.phoneNumber.message}`)}</p>
+                  <p className="text-red-500">
+                    {t(`editProfiles.${errors.phoneNumber.message}`)}
+                  </p>
                 )}
               </div>
             </div>
