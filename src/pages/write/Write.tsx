@@ -1,13 +1,11 @@
-
 /* eslint-disable */
 // @ts-nocheck
-import React from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, set } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-
+import { useEffect,useState } from "react";
 import { supabase } from "@/supabase";
 
 type FormData = {
@@ -15,12 +13,13 @@ type FormData = {
   title_en: string;
   description_ka: string;
   description_en: string;
-  user_id: string|null;
+  user_id: string | null;
   image_file: File | null;
 };
 
 const Write: React.FC = () => {
-
+  const [state,setState] = useState([])
+  console.log(state)
   const {
     control,
     handleSubmit,
@@ -34,6 +33,19 @@ const Write: React.FC = () => {
       image_file: null,
     },
   });
+
+
+  useEffect(() => {
+    supabase
+    .from("blogs")
+    .select("*")
+    .throwOnError()
+    .then((res) => {
+      setState(res?.data);
+    });
+  },[])
+
+
   const onSubmit = async (formValues: FormData) => {
     if (formValues?.image_file) {
       try {
@@ -41,24 +53,19 @@ const Write: React.FC = () => {
 
         const { data, error } = await supabase.storage
           .from("blog_images")
-          .upload(fileName, formValues.image_file)
-
-
-          
+          .upload(fileName, formValues.image_file);
 
         if (error) {
           console.error("Error uploading file:", error.message);
-        } else{
-          await supabase
-          .from("blogs")
-          .insert({
-           title_ka:formValues.title_ka,
-           title_en:formValues.title_en,
-           description_ka:formValues.description_ka,
-           description_en:formValues.description_en,
-           user_id:"ac24d99b-5b03-4f28-8287-62eeb8cf0a2d",
-           image_url:data?.fullPath,
-         }as any)
+        } else {
+          await supabase.from("blogs").insert({
+            title_ka: formValues.title_ka,
+            title_en: formValues.title_en,
+            description_ka: formValues.description_ka,
+            description_en: formValues.description_en,
+            user_id: "ac24d99b-5b03-4f28-8287-62eeb8cf0a2d",
+            image_url: data?.fullPath,
+          } as any);
           console.log("File uploaded successfully:", data);
         }
       } catch (error) {
@@ -70,6 +77,7 @@ const Write: React.FC = () => {
   };
 
   return (
+    <>
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="space-y-6 max-w-2xl mx-auto p-6 border rounded-lg shadow-lg bg-white dark:bg-gray-800 dark:border-gray-700"
@@ -205,9 +213,34 @@ const Write: React.FC = () => {
         Submit
       </Button>
     </form>
+
+    <div       
+    className="space-y-6 mt-12 max-w-2xl mx-auto p-6 border rounded-lg shadow-lg bg-white dark:bg-gray-800 dark:border-gray-700"
+    >
+      {state.map((post) => {
+          const postImageUrl = post?.image_url?`${import.meta.env.VITE_SUPABASE_BLOG_IMAGES_STORAGE_URL}/${post?.image_url}`:"";
+
+   return(
+        <div key={post.id}>
+          <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
+            {post.title_ka}
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400">{post.description_ka}</p>
+          <img
+            src={postImageUrl}
+            alt={post.title_ka}
+            className="mt-4 rounded-md w-40 h-40"
+          />
+        </div>
+   )
+      }
+    )
+    }
+   
+
+    </div>
+    </>
   );
 };
 
 export default Write;
-
-
