@@ -1,4 +1,3 @@
-
 import { useForm, Controller } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -6,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useAtom } from "jotai";
 import { userAtom } from "@/store/auth";
-import { getBlogs, uploadBlogWithImage} from "@/supabase/blogs";
+import { getBlogs, uploadBlogWithImage } from "@/supabase/blogs";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 type FormData = {
@@ -20,7 +19,7 @@ type FormData = {
 
 const Write: React.FC = () => {
   const [user] = useAtom(userAtom);
-  const userId = user?.user.id 
+  const userId = user?.user.id;
 
   const {
     control,
@@ -36,44 +35,46 @@ const Write: React.FC = () => {
     },
   });
 
-  const {data:blogsData,refetch} = useQuery({
+  const { data: blogsData, refetch ,isLoading,isError} = useQuery({
     queryKey: ["blogs"],
     queryFn: getBlogs,
-  })
-  
-  const {mutate:updateBlogData} = useMutation({
+  });
+
+  const { mutate: updateBlogData } = useMutation({
     mutationKey: ["uploadBlogWithImage"],
     mutationFn: uploadBlogWithImage,
     onSuccess: () => {
       refetch();
-    }
+    },
   });
 
-
-
-
-  const onSubmit  = (formValues: FormData)=>{
-    if(!formValues.image_file){
-      return
+  const onSubmit = (formValues: FormData) => {
+    if (!formValues.image_file) {
+      return;
     }
     const fileName = `${formValues.user_id}-${Date.now()}-${formValues.image_file.name}`;
-    
 
     updateBlogData({
-      fileName: fileName, 
-      file:formValues.image_file,
-      newBlogValues:{
-        title_ka:formValues.title_ka,
-        title_en:formValues.title_en,
-        description_ka:formValues.description_ka,
-        description_en:formValues.description_en,
-        user_id:userId,
+      fileName: fileName,
+      file: formValues.image_file,
+      newBlogValues: {
+        title_ka: formValues.title_ka,
+        title_en: formValues.title_en,
+        description_ka: formValues.description_ka,
+        description_en: formValues.description_en,
+        user_id: userId,
       },
     });
+  };
 
+  console.log(blogsData);
 
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
-
+  if (isError) {
+    return <div>Error</div>;
+  }
 
   return (
     <>
@@ -215,10 +216,13 @@ const Write: React.FC = () => {
 
       <div className="space-y-6 mt-12 max-w-2xl mx-auto p-6 border rounded-lg shadow-lg bg-white dark:bg-gray-800 dark:border-gray-700">
         {blogsData?.map((blog) => {
+
+       
           const postImageUrl = blog?.image_url
             ? `${import.meta.env.VITE_SUPABASE_BLOG_IMAGES_STORAGE_URL}/${blog?.image_url}`
             : "";
-
+            console.log("amis dabla ")
+            console.log(postImageUrl)
           return (
             <div key={blog.id}>
               <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
@@ -229,7 +233,7 @@ const Write: React.FC = () => {
               </p>
               <img
                 src={postImageUrl}
-                alt={blog.title_ka}
+                alt={blog.title_ka??"image"}
                 className="mt-4 rounded-md w-40 h-40"
               />
             </div>

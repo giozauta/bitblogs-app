@@ -62,7 +62,6 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
   const dataUrl = `data:image/svg+xml;charset=utf-8,${encodedSvg}`;
   const { t } = useTranslation();
 
-
   const { mutate: handleProfileInfo } = useMutation({
     mutationKey: ["upsertProfileInfo"],
     mutationFn: upsertProfileInfo,
@@ -80,7 +79,7 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
       id: userId,
       avatar_url: dataUrl,
     };
-    
+
     handleProfileInfo(payload);
     setIconAtom(dataUrl);
   };
@@ -104,7 +103,7 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
               control={control}
               render={({ field }) => (
                 <Select
-                  className="col-span-3"
+                  className="col-span-3 dark:text-black"
                   {...field}
                   options={[
                     { value: "Leo", label: "Leo" },

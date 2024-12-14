@@ -23,7 +23,6 @@ const AboutListViews = React.lazy(
 
 function App() {
   const setUser = useSetAtom(userAtom);
-  
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
