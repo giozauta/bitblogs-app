@@ -62,7 +62,6 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
   const dataUrl = `data:image/svg+xml;charset=utf-8,${encodedSvg}`;
   const { t } = useTranslation();
 
-  console.log(errors);
 
   const { mutate: handleProfileInfo } = useMutation({
     mutationKey: ["upsertProfileInfo"],
@@ -81,7 +80,7 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
       id: userId,
       avatar_url: dataUrl,
     };
-    console.log(dataUrl);
+    
     handleProfileInfo(payload);
     setIconAtom(dataUrl);
   };
