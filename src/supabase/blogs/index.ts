@@ -43,7 +43,7 @@ export const uploadBlogWithImage = async ({
   }
 };
 
-export const getBlogs = async ():Promise<blog[]> => {
+export const getBlogs = async (): Promise<blog[]> => {
   try {
     const { data, error } = await supabase.from("blogs").select("*");
     if (error) {
@@ -65,22 +65,22 @@ export const deleteBlogs = async (id: number) => {
   }
 };
 
-
-export const getBlogsBySearch = async(search:string):Promise<blog[]|[]>=>{
-
+export const getBlogsBySearch = async (
+  search: string,
+): Promise<blog[] | []> => {
   try {
-    const {data,error} = await supabase
-    .from("blogs")
-    .select("*")
-    .like("title_en", search);
-    if(error){
-      console.log(error.message)
-      throw new Error(error.message)
+    const { data, error } = await supabase
+      .from("blogs")
+      .select("*")
+      .like("title_en", search);
+    if (error) {
+      console.log(error.message);
+      throw new Error(error.message);
     }
 
     return data;
-  }catch(error){
-    console.log(error)
+  } catch (error) {
+    console.log(error);
     return [];
   }
-}
+};

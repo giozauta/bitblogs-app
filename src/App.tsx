@@ -9,7 +9,7 @@ import ProfilePage from "./pages/profile-page";
 import { supabase } from "./supabase";
 import { userAtom } from "@/store/auth";
 import { useSetAtom } from "jotai";
-import AuthGuard from "./components/auth-gurad";
+// import AuthGuard from "./components/auth-gurad";
 import LoginGuard from "./components/login-guard";
 import Write from "./pages/write/Write";
 
@@ -66,17 +66,17 @@ function App() {
           <Route
             path="profilePage"
             element={
-              <AuthGuard>
-                <ProfilePage />
-              </AuthGuard>
+              // <AuthGuard>
+              <ProfilePage />
+              // </AuthGuard>
             }
           />
           <Route
             path="write"
             element={
-              <AuthGuard>
-                <Write />
-              </AuthGuard>
+              // <AuthGuard>
+              <Write />
+              // </AuthGuard>
             }
           />
         </Route>

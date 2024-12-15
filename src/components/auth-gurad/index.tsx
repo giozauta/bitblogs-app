@@ -6,6 +6,7 @@ import { PropsWithChildren } from "react";
 const AuthGuard: React.FC<PropsWithChildren> = ({ children }) => {
   const [user] = useAtom(userAtom);
 
+  console.log(localStorage.getItem("user"));
   if (!user) {
     return <Navigate to="/login" replace />;
   }

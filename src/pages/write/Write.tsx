@@ -1,40 +1,55 @@
 import { useAtom } from "jotai";
 import { userAtom } from "@/store/auth";
-
-import { deleteBlogs, getBlogs, getBlogsBySearch, uploadBlogWithImage } from "@/supabase/blogs";
+import {
+  deleteBlogs,
+  getBlogs,
+  getBlogsBySearch,
+  uploadBlogWithImage,
+} from "@/supabase/blogs";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Blog from "./components/blogs-list";
 import BlogsForm from "./components/form-section";
 import { BlogsFilterFormValues, FormData } from "./types";
-
-
 import { Controller, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
+import { useSearchParams } from "react-router-dom";
+import qs from "qs";
 
-const blogsFilterFormDefaultValues = {
-  searchText: "",
-};
+import { useEffect } from "react";
+import { useDebounce } from "use-debounce";
+
+// const blogsFilterFormDefaultValues = {
+//   searchText: "",
+// };
 
 const Write: React.FC = () => {
   const [user] = useAtom(userAtom);
   const userId = user?.user.id;
-
-
+  //
+  const [searchParams, setSearchParams] = useSearchParams();
+  //
   const { control, watch } = useForm<BlogsFilterFormValues>({
-    defaultValues: blogsFilterFormDefaultValues,
+    defaultValues: qs.parse(searchParams.toString()) as BlogsFilterFormValues,
   });
-  const searchText=watch("searchText")
-
-  const { data: blogsData, refetch, isLoading, isError } = useQuery({
-    queryKey: ["blogs", searchText], 
+  const searchText = watch("searchText");
+  //
+  const [debouncedSearchText] = useDebounce(searchText, 1000);
+  useEffect(() => {
+    refetch();
+  }, [debouncedSearchText]);
+  //
+  const {
+    data: blogsData,
+    refetch,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["blogs"],
     queryFn: () =>
-      searchText
-        ? getBlogsBySearch(`%${searchText}%`) 
-        : getBlogs(),
-    enabled: true, 
+      searchText ? getBlogsBySearch(`%${searchText}%`) : getBlogs(),
+    enabled: true,
   });
-  console.log(blogsData)
-
+  //
   const { mutate: updateBlogData } = useMutation({
     mutationKey: ["uploadBlogWithImage"],
     mutationFn: uploadBlogWithImage,
@@ -42,7 +57,7 @@ const Write: React.FC = () => {
       refetch();
     },
   });
-
+  //
   const { mutate: deleteBlog } = useMutation({
     mutationKey: ["deleteBlog"],
     mutationFn: deleteBlogs,
@@ -50,13 +65,12 @@ const Write: React.FC = () => {
       refetch();
     },
   });
-
-
-
+  //
   const onSubmit = (formValues: FormData) => {
     if (!formValues.image_file) {
       return;
     }
+
     const fileName = `${formValues.user_id}-${Date.now()}-${formValues.image_file.name}`;
 
     updateBlogData({
@@ -71,7 +85,7 @@ const Write: React.FC = () => {
       },
     });
   };
-
+  //
   const onDelete = (id: number) => {
     deleteBlog(id);
   };
@@ -83,10 +97,19 @@ const Write: React.FC = () => {
     return <div>Error</div>;
   }
 
+  //
+  const handleSearchChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    onChange: (value: string) => void,
+  ) => {
+    const newSearchText = e.target.value;
 
-
-
-
+    //იმისთვის რომ url ში ჩავწეროთ path
+    setSearchParams({ searchText: newSearchText });
+    //
+    onChange(newSearchText);
+  };
+  //
   return (
     <>
       <BlogsForm onSubmit={onSubmit} />
@@ -94,18 +117,19 @@ const Write: React.FC = () => {
         <Controller
           control={control}
           name="searchText"
-          render={({ field }) => (
-            <Input {...field} placeholder="Enter Search Text..." className="" />
+          render={({ field: { onChange, value } }) => (
+            <Input
+              onChange={(e) => handleSearchChange(e, onChange)}
+              value={value}
+              placeholder="Enter Search Text..."
+              className=""
+            />
           )}
         />
       </div>
-      {
-        blogsData?.map((blog) => (
-          <Blog key={blog.id} blog={blog} onDelete={onDelete} />
-        ))
-      }
-
-
+      {blogsData?.map((blog) => (
+        <Blog key={blog.id} blog={blog} onDelete={onDelete} />
+      ))}
     </>
   );
 };

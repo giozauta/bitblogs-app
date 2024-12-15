@@ -27,5 +27,3 @@ export type onDelete = (id: number) => void;
 export type BlogsFilterFormValues = {
   searchText: string;
 };
-
-
