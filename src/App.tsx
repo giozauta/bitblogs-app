@@ -8,8 +8,8 @@ import HomeAuthorView from "./pages/home/views/home-author";
 import ProfilePage from "./pages/profile-page";
 import { supabase } from "./supabase";
 import { userAtom } from "@/store/auth";
-import { useSetAtom } from "jotai";
-// import AuthGuard from "./components/auth-gurad";
+import { useAtom } from "jotai";
+import AuthGuard from "./components/auth-gurad";
 import LoginGuard from "./components/login-guard";
 import Write from "./pages/write/Write";
 
@@ -22,21 +22,36 @@ const AboutListViews = React.lazy(
 );
 
 function App() {
-  const setUser = useSetAtom(userAtom);
+  const [, setUser] = useAtom(userAtom);
 
+  // Retrieve and persist user session
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session);
-    });
+    const loadSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        setUser(session);
+        localStorage.setItem("userSession", JSON.stringify(session));
+      }
+    };
+
+    loadSession();
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session);
+      if (session) {
+        localStorage.setItem("userSession", JSON.stringify(session));
+      } else {
+        localStorage.removeItem("userSession");
+      }
     });
 
     return () => subscription.unsubscribe();
   }, [setUser]);
+
+
+
 
   return (
     <Suspense fallback={<div>loading...</div>}>
@@ -66,17 +81,17 @@ function App() {
           <Route
             path="profilePage"
             element={
-              // <AuthGuard>
+              <AuthGuard>
               <ProfilePage />
-              // </AuthGuard>
+              </AuthGuard>
             }
           />
           <Route
             path="write"
             element={
-              // <AuthGuard>
+              <AuthGuard>
               <Write />
-              // </AuthGuard>
+              </AuthGuard>
             }
           />
         </Route>

@@ -1,10 +1,9 @@
 import { Navigate } from "react-router-dom";
-import { useAtom } from "jotai";
-import { userAtom } from "@/store/auth";
+
 import { PropsWithChildren } from "react";
 
 const LoginGuard: React.FC<PropsWithChildren> = ({ children }) => {
-  const [user] = useAtom(userAtom);
+  const user = localStorage.getItem("user");
 
   console.log(localStorage.getItem("user"));
   if (user) {
