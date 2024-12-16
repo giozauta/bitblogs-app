@@ -20,7 +20,7 @@ const Blog: React.FC<{ blog: blog; onDelete: onDelete }> = ({
   //
   const [timeAtom] = useAtom(langAtom);
   //
-  const {t}=useTranslation()
+  const { t } = useTranslation();
   // თარიღის ფორმატირება
   const now = dayjs(); // ახლანდელი დრო
   const createdAt = dayjs(blog.created_at); //დრო როდესაც ბლოგი შეიქმნა

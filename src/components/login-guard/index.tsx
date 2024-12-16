@@ -5,8 +5,7 @@ import { PropsWithChildren } from "react";
 const LoginGuard: React.FC<PropsWithChildren> = ({ children }) => {
   const user = localStorage.getItem("user");
 
-  console.log(localStorage.getItem("user"));
-  if (user) {
+  if (!user) {
     return <Navigate to="/" replace />;
   }
 

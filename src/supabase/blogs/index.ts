@@ -45,7 +45,8 @@ export const uploadBlogWithImage = async ({
 
 export const getBlogs = async (): Promise<blog[]> => {
   try {
-    const { data, error } = await supabase.from("blogs").select("*");
+    const { data, error } = await supabase.from("blogs")
+    .select("*");
     if (error) {
       throw new Error(error.message);
     }
@@ -55,16 +56,6 @@ export const getBlogs = async (): Promise<blog[]> => {
     throw new Error(`Failed to fetch blogs: ${error}`);
   }
 };
-
-export const deleteBlogs = async (id: number) => {
-  try {
-    const response = await supabase.from("blogs").delete().eq("id", id);
-    return response;
-  } catch (error) {
-    return error;
-  }
-};
-
 export const getBlogsBySearch = async (
   search: string,
 ): Promise<blog[] | []> => {
@@ -82,5 +73,14 @@ export const getBlogsBySearch = async (
   } catch (error) {
     console.log(error);
     return [];
+  }
+};
+
+export const deleteBlogs = async (id: number) => {
+  try {
+    const response = await supabase.from("blogs").delete().eq("id", id);
+    return response;
+  } catch (error) {
+    return error;
   }
 };

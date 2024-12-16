@@ -14,8 +14,6 @@ import { Controller, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { useSearchParams } from "react-router-dom";
 import qs from "qs";
-
-import { useEffect } from "react";
 import { useDebounce } from "use-debounce";
 
 // const blogsFilterFormDefaultValues = {
@@ -35,17 +33,14 @@ const Write: React.FC = () => {
   const searchText = watch("searchText");
   //
   const [debouncedSearchText] = useDebounce(searchText, 1000);
-  useEffect(() => {
-    refetch();
-  }, [debouncedSearchText]);
-  //
+//
   const {
     data: blogsData,
     refetch,
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["blogs"],
+    queryKey: ["blogs",debouncedSearchText],
     queryFn: () =>
       searchText ? getBlogsBySearch(`%${searchText}%`) : getBlogs(),
     enabled: true,
