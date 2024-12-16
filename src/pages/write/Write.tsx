@@ -26,6 +26,7 @@ const Write: React.FC = () => {
   const [user] = useAtom(userAtom);
   const userId = user?.user.id;
   //
+
   const [searchParams, setSearchParams] = useSearchParams();
   //
   const { control, watch } = useForm<BlogsFilterFormValues>({

@@ -3,20 +3,25 @@ import { useTranslation } from "react-i18next";
 import LangButton from "./components/lang-button/LangButton";
 import { ThemeModeToggle } from "./components/mode-toggle/ModeToggle";
 import { Link } from "react-router-dom";
-import { useAtomValue } from "jotai";
-import { userAtom, userIconAtom } from "@/store/auth";
+import { useAtom, useAtomValue } from "jotai";
+import { langAtom, userAtom, userIconAtom } from "@/store/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { useQuery } from "@tanstack/react-query";
 import { getProfileInfo } from "@/supabase/account";
 
 const Header: React.FC = () => {
   const { t } = useTranslation();
+
+  const [, setTimeAtom] = useAtom(langAtom);
+  
   const handleChangeLanguage = (language: string) => {
     i18next.changeLanguage(language);
+    setTimeAtom(language);
   };
 
   const user = useAtomValue(userAtom);
   const userIcon = useAtomValue(userIconAtom);
+
 
   const {
     data: userIconData,
@@ -36,7 +41,7 @@ const Header: React.FC = () => {
   }
 
   return (
-    <div className="header border-b">
+    <div className="header border-b sticky top-0 bg-white dark:bg-[#181818] z-50">
       <div className="header Container container mx-auto px-4 py-4 flex items-center justify-between">
         <Link to="/" className="headerIcon text-2xl font-bold">
           BitBlogs
@@ -94,7 +99,7 @@ const Header: React.FC = () => {
               <Avatar>
                 <AvatarImage
                   className="w-full h-full"
-                  src={userIcon ?? userIconData?.avatar_url}
+                  src={userIcon ?? userIconData?.avatar_url ?? undefined}
                 />
                 <AvatarFallback>AV</AvatarFallback>
               </Avatar>

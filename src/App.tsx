@@ -27,7 +27,9 @@ function App() {
   // Retrieve and persist user session
   useEffect(() => {
     const loadSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (session) {
         setUser(session);
         localStorage.setItem("userSession", JSON.stringify(session));
@@ -49,9 +51,6 @@ function App() {
 
     return () => subscription.unsubscribe();
   }, [setUser]);
-
-
-
 
   return (
     <Suspense fallback={<div>loading...</div>}>
@@ -82,7 +81,7 @@ function App() {
             path="profilePage"
             element={
               <AuthGuard>
-              <ProfilePage />
+                <ProfilePage />
               </AuthGuard>
             }
           />
@@ -90,7 +89,7 @@ function App() {
             path="write"
             element={
               <AuthGuard>
-              <Write />
+                <Write />
               </AuthGuard>
             }
           />

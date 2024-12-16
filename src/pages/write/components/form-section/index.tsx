@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { FormData, BlogsFormProps } from "../../types";
+import { useTranslation } from "react-i18next";
 
 const BlogsForm: React.FC<BlogsFormProps> = ({ onSubmit }) => {
   const {
@@ -19,7 +20,9 @@ const BlogsForm: React.FC<BlogsFormProps> = ({ onSubmit }) => {
       image_file: null,
     },
   });
-
+  //
+  const {t} = useTranslation();
+  //
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -31,7 +34,7 @@ const BlogsForm: React.FC<BlogsFormProps> = ({ onSubmit }) => {
           htmlFor="title_ka"
           className="block text-lg font-semibold text-gray-700 dark:text-gray-300"
         >
-          Title (KA)
+          {t("write.titleKa")}
         </Label>
         <Controller
           name="title_ka"
@@ -57,7 +60,7 @@ const BlogsForm: React.FC<BlogsFormProps> = ({ onSubmit }) => {
           htmlFor="title_en"
           className="block text-lg font-semibold text-gray-700 dark:text-gray-300"
         >
-          Title (EN)
+          {t("write.titleEn")}
         </Label>
         <Controller
           name="title_en"
@@ -83,7 +86,7 @@ const BlogsForm: React.FC<BlogsFormProps> = ({ onSubmit }) => {
           htmlFor="description_ka"
           className="block text-lg font-semibold text-gray-700 dark:text-gray-300"
         >
-          Description (KA)
+          {t("write.descriptionKa")}
         </Label>
         <Controller
           name="description_ka"
@@ -105,7 +108,7 @@ const BlogsForm: React.FC<BlogsFormProps> = ({ onSubmit }) => {
           htmlFor="description_en"
           className="block text-lg font-semibold text-gray-700 dark:text-gray-300"
         >
-          Description (EN)
+          {t("write.descriptionEn")}
         </Label>
         <Controller
           name="description_en"
@@ -127,7 +130,7 @@ const BlogsForm: React.FC<BlogsFormProps> = ({ onSubmit }) => {
           htmlFor="image_file"
           className="block text-lg font-semibold text-gray-700 dark:text-gray-300"
         >
-          Image URL
+          {t("write.image")}
         </Label>
         <Controller
           name="image_file"
@@ -153,7 +156,7 @@ const BlogsForm: React.FC<BlogsFormProps> = ({ onSubmit }) => {
         variant="default"
         className="w-full p-3 mt-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-indigo-500 dark:bg-blue-800 dark:hover:bg-blue-700"
       >
-        Submit
+        {t("write.submit")}
       </Button>
     </form>
   );

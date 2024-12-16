@@ -6,9 +6,12 @@ import authorisationEn from "./en/authorisation/index.json";
 import authorisationka from "./ka/authorisation/index.json";
 import registrationEn from "./en/registration/index.json";
 import registrationKa from "./ka/registration/index.json";
-
 import editProfilesEn from "./en/editProfiles/index.json";
 import editProfilesKa from "./ka/editProfiles/index.json";
+
+import writeEn from "./en/write/index.json";
+import writeKa from "./ka/write/index.json";
+
 
 i18next.use(initReactI18next).init({
   debug: true,
@@ -19,6 +22,7 @@ i18next.use(initReactI18next).init({
         authorisation: authorisationEn,
         registration: registrationEn,
         editProfiles: editProfilesEn,
+        write: writeEn,
       },
     },
     ka: {
@@ -27,6 +31,7 @@ i18next.use(initReactI18next).init({
         authorisation: authorisationka,
         registration: registrationKa,
         editProfiles: editProfilesKa,
+        write: writeKa,
       },
     },
   },
