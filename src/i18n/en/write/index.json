@@ -1,8 +1,9 @@
 {
-    "titleKa":"Title (KA)",
-    "titleEn":"Title (EN)",
-    "descriptionKa":"Description (KA)",
-    "descriptionEn":"Description (EN)",
-    "image":"Image",
-    "submit":"Add Blog"
+  "titleKa": "Title (KA)",
+  "titleEn": "Title (EN)",
+  "descriptionKa": "Description (KA)",
+  "descriptionEn": "Description (EN)",
+  "image": "Image",
+  "submit": "Add Blog",
+  "delete": "Delete"
 }

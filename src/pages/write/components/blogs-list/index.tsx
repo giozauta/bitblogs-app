@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useAtom } from "jotai";
 import { langAtom } from "@/store/auth";
+import { useTranslation } from "react-i18next";
 
 dayjs.extend(relativeTime); // relativeTime პლაგინის ჩართვა
 
@@ -18,7 +19,8 @@ const Blog: React.FC<{ blog: blog; onDelete: onDelete }> = ({
 
   //
   const [timeAtom] = useAtom(langAtom);
-  console.log(timeAtom)
+  //
+  const {t}=useTranslation()
   // თარიღის ფორმატირება
   const now = dayjs(); // ახლანდელი დრო
   const createdAt = dayjs(blog.created_at); //დრო როდესაც ბლოგი შეიქმნა
@@ -35,7 +37,6 @@ const Blog: React.FC<{ blog: blog; onDelete: onDelete }> = ({
       <div key={blog.id}>
         <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
           {timeAtom === "ka" ? blog.title_ka : blog.title_en}
-
         </h2>
         <p className="text-gray-600 dark:text-gray-400">
           {timeAtom === "ka" ? blog.description_ka : blog.description_en}
@@ -49,7 +50,7 @@ const Blog: React.FC<{ blog: blog; onDelete: onDelete }> = ({
         )}
       </div>
       <Button variant={"destructive"} onClick={() => onDelete(blog.id)}>
-        ბლოგის წაშლა
+        {t("write.delete")}
       </Button>
     </div>
   );

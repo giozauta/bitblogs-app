@@ -13,7 +13,7 @@ const Header: React.FC = () => {
   const { t } = useTranslation();
 
   const [, setTimeAtom] = useAtom(langAtom);
-  
+
   const handleChangeLanguage = (language: string) => {
     i18next.changeLanguage(language);
     setTimeAtom(language);
@@ -21,7 +21,6 @@ const Header: React.FC = () => {
 
   const user = useAtomValue(userAtom);
   const userIcon = useAtomValue(userIconAtom);
-
 
   const {
     data: userIconData,

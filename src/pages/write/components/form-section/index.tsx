@@ -21,7 +21,7 @@ const BlogsForm: React.FC<BlogsFormProps> = ({ onSubmit }) => {
     },
   });
   //
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   //
   return (
     <form

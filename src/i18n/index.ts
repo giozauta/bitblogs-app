@@ -12,7 +12,6 @@ import editProfilesKa from "./ka/editProfiles/index.json";
 import writeEn from "./en/write/index.json";
 import writeKa from "./ka/write/index.json";
 
-
 i18next.use(initReactI18next).init({
   debug: true,
   resources: {
