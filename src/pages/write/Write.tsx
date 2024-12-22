@@ -33,14 +33,14 @@ const Write: React.FC = () => {
   const searchText = watch("searchText");
   //
   const [debouncedSearchText] = useDebounce(searchText, 1000);
-//
+  //
   const {
     data: blogsData,
     refetch,
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["blogs",debouncedSearchText],
+    queryKey: ["blogs", debouncedSearchText],
     queryFn: () =>
       searchText ? getBlogsBySearch(`%${searchText}%`) : getBlogs(),
     enabled: true,

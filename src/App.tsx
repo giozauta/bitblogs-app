@@ -1,25 +1,9 @@
 import "./App.css";
-import React, { Suspense, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
-import DefaultLayout from "./layouts/default/DefaultLayout";
-import Authorization from "./pages/login-in/Login";
-import Registration from "./pages/sign-up/SignUp";
-import HomeAuthorView from "./pages/home/views/home-author";
-import ProfilePage from "./pages/profile-page";
+import { useEffect } from "react";
 import { supabase } from "./supabase";
 import { userAtom } from "@/store/auth";
 import { useAtom } from "jotai";
-import AuthGuard from "./components/auth-gurad";
-import LoginGuard from "./components/login-guard";
-import Write from "./pages/write/Write";
-
-const HomeMainViews = React.lazy(
-  () => import("./pages/home/views/home-main/index"),
-);
-const NotFoundPage = React.lazy(() => import("./components/404/NotFoundPage"));
-const AboutListViews = React.lazy(
-  () => import("./pages/about/views/aboutList/index"),
-);
+import AppRoutes from "./routes";
 
 function App() {
   const [, setUser] = useAtom(userAtom);
@@ -52,52 +36,7 @@ function App() {
     return () => subscription.unsubscribe();
   }, [setUser]);
 
-  return (
-    <Suspense fallback={<div>loading...</div>}>
-      <Routes>
-        <Route element={<DefaultLayout />}>
-          <Route path="/" element={<HomeMainViews />} />
-          <Route path="author/:id" element={<HomeAuthorView />} />
-          <Route path="about" element={<AboutListViews />} />
-
-          <Route
-            path="login"
-            element={
-              <LoginGuard>
-                <Authorization />
-              </LoginGuard>
-            }
-          />
-
-          <Route
-            path="register"
-            element={
-              <LoginGuard>
-                <Registration />
-              </LoginGuard>
-            }
-          />
-          <Route
-            path="profilePage"
-            element={
-              <AuthGuard>
-                <ProfilePage />
-              </AuthGuard>
-            }
-          />
-          <Route
-            path="write"
-            element={
-              <AuthGuard>
-                <Write />
-              </AuthGuard>
-            }
-          />
-        </Route>
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </Suspense>
-  );
+  return <AppRoutes />;
 }
 
 export default App;

@@ -11,6 +11,7 @@ export const uploadBlogWithImage = async ({
   file: File;
   newBlogValues: blogType;
 }) => {
+  console.log(file);
   try {
     const imageResult = await supabase.storage
       .from("blog_images")
@@ -45,8 +46,7 @@ export const uploadBlogWithImage = async ({
 
 export const getBlogs = async (): Promise<blog[]> => {
   try {
-    const { data, error } = await supabase.from("blogs")
-    .select("*");
+    const { data, error } = await supabase.from("blogs").select("*");
     if (error) {
       throw new Error(error.message);
     }
@@ -78,9 +78,40 @@ export const getBlogsBySearch = async (
 
 export const deleteBlogs = async (id: number) => {
   try {
-    const response = await supabase.from("blogs").delete().eq("id", id);
-    return response;
+    const { data: blog, error: fetchError } = await supabase
+      .from("blogs")
+      .select("image_url")
+      .eq("id", id)
+      .single();
+
+    if (fetchError) {
+      throw new Error(fetchError.message);
+    }
+
+    if (blog?.image_url) {
+      const { error: deleteImageError } = await supabase.storage
+        .from("blog_images")
+        .remove([blog.image_url]);
+
+      if (deleteImageError) {
+        throw new Error(deleteImageError.message);
+      }
+    }
+
+    const { data, error: deleteError } = await supabase
+      .from("blogs")
+      .delete()
+      .eq("id", id);
+
+    if (deleteError) {
+      throw new Error(deleteError.message);
+    }
+
+    return data;
   } catch (error) {
-    return error;
+    console.error("Error deleting blog:", error);
+    throw new Error(
+      `Failed to delete blog: ${error instanceof Error ? error.message : error}`,
+    );
   }
 };

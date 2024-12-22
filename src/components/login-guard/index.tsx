@@ -1,11 +1,10 @@
 import { Navigate } from "react-router-dom";
-
 import { PropsWithChildren } from "react";
 
 const LoginGuard: React.FC<PropsWithChildren> = ({ children }) => {
-  const user = localStorage.getItem("user");
+  const user = localStorage.getItem("userSession");
 
-  if (!user) {
+  if (user) {
     return <Navigate to="/" replace />;
   }
 
