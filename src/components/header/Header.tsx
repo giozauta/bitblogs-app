@@ -47,7 +47,7 @@ const Header: React.FC = () => {
         </Link>
         <nav className="headerNavbar hidden md:flex space-x-4">
           <Link
-            to="/"
+            to="/home"
             className="navBarALink text-muted-foreground hover:text-foreground"
           >
             {t("header.Home")}
@@ -93,7 +93,7 @@ const Header: React.FC = () => {
           ) : (
             <Link
               className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full justify-center items-center border-2 border-blue-500"
-              to="/profilePage"
+              to="/profile"
             >
               <Avatar>
                 <AvatarImage

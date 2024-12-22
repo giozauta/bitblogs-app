@@ -20,7 +20,7 @@ const LoginInputForm: React.FC = () => {
     mutationKey: ["login"],
     mutationFn: login,
     onSuccess: () => {
-      navigate("/profilePage");
+      navigate("/profile");
     },
     onError: (error) => {
       alert(t("authorisation.error"));
