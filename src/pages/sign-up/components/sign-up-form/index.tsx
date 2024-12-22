@@ -2,8 +2,7 @@ import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import { signUp } from "@/supabase/auth";
+import { useSignUp } from "@/react-query/mutation/sign-up";
 
 type Inputs = {
   email: string;
@@ -18,13 +17,7 @@ const SignUpForm: React.FC = () => {
     defaultValues: { email: "", password: "", confirmPassword: "" },
   });
 
-  const { mutate: handleRegister } = useMutation({
-    mutationKey: ["register"],
-    mutationFn: signUp,
-    onSuccess: () => {
-      navigate("/login");
-    },
-  });
+  const { mutate: handleSignUp } =useSignUp();
 
   const onSubmit = (fieldValues: Inputs) => {
     if (fieldValues.password !== fieldValues.confirmPassword) {
@@ -32,7 +25,11 @@ const SignUpForm: React.FC = () => {
       return;
     }
 
-    handleRegister(fieldValues);
+    handleSignUp(fieldValues,{
+      onSuccess: () => {
+        navigate("/login");
+      },
+    });
   };
 
   return (

@@ -1,34 +1,27 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AuthorAvatar from "../avatar";
 import React from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { logout } from "@/supabase/auth";
 import { Link } from "react-router-dom";
-import { getProfileInfo } from "@/supabase/account";
 import { userAtom } from "@/store/auth";
 import { useAtom } from "jotai";
 import EditProfileInfo from "../edit-profile-info";
 import { useTranslation } from "react-i18next";
+import { useLogout } from "@/react-query/mutation/profile";
+import { useProfileInfo } from "@/react-query/query/profile";
 
 const ProfileTabs: React.FC = () => {
-  const { mutate: handleLogout } = useMutation({
-    mutationKey: ["logout"],
-    mutationFn: logout,
-  });
   //
   const user = useAtom(userAtom);
   const userId = user[0]?.user.id ?? "";
+  //
+  const { mutate: handleLogout } = useLogout();
   //
   const {
     data: profile,
     isError,
     isLoading,
     refetch,
-  } = useQuery({
-    queryKey: ["profile-info"],
-    queryFn: () => getProfileInfo(userId),
-    enabled: !!userId,
-  });
+  } = useProfileInfo(userId);
   //
   const { t } = useTranslation();
   //

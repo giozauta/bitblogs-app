@@ -1,5 +1,5 @@
 import LoginGuard from "@/components/login-guard";
-import Authorization from "@/pages/login-in/Login";
+import Authorization from "@/pages/log-in/Login";
 import { Route } from "react-router";
 import { Default_Layout_Paths } from "../index.enum";
 

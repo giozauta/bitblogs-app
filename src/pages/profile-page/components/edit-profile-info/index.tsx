@@ -12,12 +12,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useForm, Controller } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { upsertProfileInfo } from "@/supabase/account";
+
 import { useAtom } from "jotai";
 import { userAtom, userIconAtom } from "@/store/auth";
 import { FileProfileInfoPayLoad } from "@/supabase/account/index.types";
 import { useTranslation } from "react-i18next";
+import { useUpdateProfileInfo } from "@/react-query/mutation/profile";
 
 type avatarURl = {
   value: string;
@@ -62,16 +62,7 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
   const dataUrl = `data:image/svg+xml;charset=utf-8,${encodedSvg}`;
   const { t } = useTranslation();
 
-  const { mutate: handleProfileInfo } = useMutation({
-    mutationKey: ["upsertProfileInfo"],
-    mutationFn: upsertProfileInfo,
-    onSuccess: () => {
-      refetch();
-    },
-    onError: (err) => {
-      console.error("Error during upsert:", err);
-    },
-  });
+  const { mutate: handleProfileInfo } = useUpdateProfileInfo();
 
   const onSubmit = (formFields: Inputs) => {
     const payload: FileProfileInfoPayLoad = {
@@ -80,7 +71,14 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
       avatar_url: dataUrl,
     };
 
-    handleProfileInfo(payload);
+    handleProfileInfo(payload,{
+      onSuccess: () => {
+        refetch();
+      },
+      onError: (err) => {
+        console.error("Error during upsert:", err);
+      },
+    });
     setIconAtom(dataUrl);
   };
 

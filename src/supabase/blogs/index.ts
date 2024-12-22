@@ -57,21 +57,23 @@ export const getBlogs = async (): Promise<blog[]> => {
   }
 };
 export const getBlogsBySearch = async (
-  search: string,
+  search: string|number|null,
 ): Promise<blog[] | []> => {
   try {
-    const { data, error } = await supabase
+    const query = supabase
       .from("blogs")
-      .select("*")
-      .like("title_en", search);
+      .select("*"); 
+    if (search) {
+      query.like("title_en", `%${search}%`);
+    }
+    const { data, error } = await query;
     if (error) {
-      console.log(error.message);
+      console.error(error.message);
       throw new Error(error.message);
     }
-
-    return data;
+    return data ?? [];
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return [];
   }
 };

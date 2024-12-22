@@ -1,12 +1,7 @@
 import { useAtom } from "jotai";
 import { userAtom } from "@/store/auth";
 import {
-  deleteBlogs,
-  getBlogs,
-  getBlogsBySearch,
-  uploadBlogWithImage,
 } from "@/supabase/blogs";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import Blog from "./components/blogs-list";
 import BlogsForm from "./components/form-section";
 import { BlogsFilterFormValues, FormData } from "./types";
@@ -15,10 +10,9 @@ import { Input } from "@/components/ui/input";
 import { useSearchParams } from "react-router-dom";
 import qs from "qs";
 import { useDebounce } from "use-debounce";
+import { useDeleteBlog, useUpdateBlog } from "@/react-query/mutation/write";
+import { useBlogsList } from "@/react-query/query/write";
 
-// const blogsFilterFormDefaultValues = {
-//   searchText: "",
-// };
 
 const Write: React.FC = () => {
   const [user] = useAtom(userAtom);
@@ -39,28 +33,11 @@ const Write: React.FC = () => {
     refetch,
     isLoading,
     isError,
-  } = useQuery({
-    queryKey: ["blogs", debouncedSearchText],
-    queryFn: () =>
-      searchText ? getBlogsBySearch(`%${searchText}%`) : getBlogs(),
-    enabled: true,
-  });
+  } = useBlogsList(debouncedSearchText);
   //
-  const { mutate: updateBlogData } = useMutation({
-    mutationKey: ["uploadBlogWithImage"],
-    mutationFn: uploadBlogWithImage,
-    onSuccess: () => {
-      refetch();
-    },
-  });
+  const { mutate: updateBlogData } = useUpdateBlog();
   //
-  const { mutate: deleteBlog } = useMutation({
-    mutationKey: ["deleteBlog"],
-    mutationFn: deleteBlogs,
-    onSuccess: () => {
-      refetch();
-    },
-  });
+  const { mutate: deleteBlog } = useDeleteBlog();
   //
   const onSubmit = (formValues: FormData) => {
     if (!formValues.image_file) {
@@ -79,11 +56,19 @@ const Write: React.FC = () => {
         description_en: formValues.description_en,
         user_id: userId,
       },
+    },{
+      onSuccess: () => {
+        refetch();
+      },
     });
   };
   //
   const onDelete = (id: number) => {
-    deleteBlog(id);
+    deleteBlog(id,{
+      onSuccess: () => {
+        refetch();
+      },
+    });
   };
 
   if (isLoading) {

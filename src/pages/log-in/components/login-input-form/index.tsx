@@ -1,5 +1,4 @@
-import { login } from "@/supabase/auth";
-import { useMutation } from "@tanstack/react-query";
+import { useLogIn } from "@/react-query/mutation/log-in";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -16,23 +15,21 @@ const LoginInputForm: React.FC = () => {
     defaultValues: { email: "", password: "" },
   });
 
-  const { mutate: handleLogin } = useMutation({
-    mutationKey: ["login"],
-    mutationFn: login,
-    onSuccess: () => {
-      navigate("/profile");
-    },
-    onError: (error) => {
-      alert(t("authorisation.error"));
-      console.log(error);
-    },
-  });
+  const { mutate: handleLogin } = useLogIn();
 
   const onSubmit = (fieldValues: Inputs) => {
     if (fieldValues.email == "" && fieldValues.password == "") {
       return;
     }
-    handleLogin(fieldValues);
+    handleLogin(fieldValues,{
+      onSuccess: () => {
+        navigate("/profile");
+      },
+      onError: (error) => {
+        alert(t("authorisation.error"));
+        console.log(error);
+      },
+    });
   };
 
   return (

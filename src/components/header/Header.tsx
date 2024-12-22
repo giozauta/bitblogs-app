@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 import { useAtom, useAtomValue } from "jotai";
 import { langAtom, userAtom, userIconAtom } from "@/store/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { useQuery } from "@tanstack/react-query";
-import { getProfileInfo } from "@/supabase/account";
+
+import { useHeader } from "@/react-query/query/header";
 
 const Header: React.FC = () => {
   const { t } = useTranslation();
@@ -21,16 +21,13 @@ const Header: React.FC = () => {
 
   const user = useAtomValue(userAtom);
   const userIcon = useAtomValue(userIconAtom);
+  const userId = user?.user.id??"";
 
   const {
     data: userIconData,
     error,
     isLoading,
-  } = useQuery({
-    queryKey: ["userIcon"],
-    queryFn: () => getProfileInfo(user?.user.id ?? ""),
-    enabled: !!user?.user.id,
-  });
+  } = useHeader(userId);
 
   if (isLoading) {
     return <div>Loading...</div>;
