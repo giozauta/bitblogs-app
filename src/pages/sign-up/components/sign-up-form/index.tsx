@@ -17,7 +17,7 @@ const SignUpForm: React.FC = () => {
     defaultValues: { email: "", password: "", confirmPassword: "" },
   });
 
-  const { mutate: handleSignUp } =useSignUp();
+  const { mutate: handleSignUp } = useSignUp();
 
   const onSubmit = (fieldValues: Inputs) => {
     if (fieldValues.password !== fieldValues.confirmPassword) {
@@ -25,7 +25,7 @@ const SignUpForm: React.FC = () => {
       return;
     }
 
-    handleSignUp(fieldValues,{
+    handleSignUp(fieldValues, {
       onSuccess: () => {
         navigate("/login");
       },

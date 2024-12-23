@@ -1,7 +1,6 @@
 import { useAtom } from "jotai";
 import { userAtom } from "@/store/auth";
-import {
-} from "@/supabase/blogs";
+import {} from "@/supabase/blogs";
 import Blog from "./components/blogs-list";
 import BlogsForm from "./components/form-section";
 import { BlogsFilterFormValues, FormData } from "./types";
@@ -12,7 +11,6 @@ import qs from "qs";
 import { useDebounce } from "use-debounce";
 import { useDeleteBlog, useUpdateBlog } from "@/react-query/mutation/write";
 import { useBlogsList } from "@/react-query/query/write";
-
 
 const Write: React.FC = () => {
   const [user] = useAtom(userAtom);
@@ -46,25 +44,28 @@ const Write: React.FC = () => {
 
     const fileName = `${formValues.user_id}-${Date.now()}-${formValues.image_file.name}`;
 
-    updateBlogData({
-      fileName: fileName,
-      file: formValues.image_file,
-      newBlogValues: {
-        title_ka: formValues.title_ka,
-        title_en: formValues.title_en,
-        description_ka: formValues.description_ka,
-        description_en: formValues.description_en,
-        user_id: userId,
+    updateBlogData(
+      {
+        fileName: fileName,
+        file: formValues.image_file,
+        newBlogValues: {
+          title_ka: formValues.title_ka,
+          title_en: formValues.title_en,
+          description_ka: formValues.description_ka,
+          description_en: formValues.description_en,
+          user_id: userId,
+        },
       },
-    },{
-      onSuccess: () => {
-        refetch();
+      {
+        onSuccess: () => {
+          refetch();
+        },
       },
-    });
+    );
   };
   //
   const onDelete = (id: number) => {
-    deleteBlog(id,{
+    deleteBlog(id, {
       onSuccess: () => {
         refetch();
       },

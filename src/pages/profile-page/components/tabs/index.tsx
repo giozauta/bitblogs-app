@@ -16,12 +16,7 @@ const ProfileTabs: React.FC = () => {
   //
   const { mutate: handleLogout } = useLogout();
   //
-  const {
-    data: profile,
-    isError,
-    isLoading,
-    refetch,
-  } = useProfileInfo(userId);
+  const { data: profile, isError, isLoading, refetch } = useProfileInfo(userId);
   //
   const { t } = useTranslation();
   //

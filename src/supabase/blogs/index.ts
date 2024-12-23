@@ -57,12 +57,10 @@ export const getBlogs = async (): Promise<blog[]> => {
   }
 };
 export const getBlogsBySearch = async (
-  search: string|number|null,
+  search: string | number | null,
 ): Promise<blog[] | []> => {
   try {
-    const query = supabase
-      .from("blogs")
-      .select("*"); 
+    const query = supabase.from("blogs").select("*");
     if (search) {
       query.like("title_en", `%${search}%`);
     }

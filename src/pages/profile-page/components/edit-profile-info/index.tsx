@@ -71,7 +71,7 @@ const EditProfileInfo: React.FC<{ refetch: () => void }> = ({ refetch }) => {
       avatar_url: dataUrl,
     };
 
-    handleProfileInfo(payload,{
+    handleProfileInfo(payload, {
       onSuccess: () => {
         refetch();
       },

@@ -21,13 +21,9 @@ const Header: React.FC = () => {
 
   const user = useAtomValue(userAtom);
   const userIcon = useAtomValue(userIconAtom);
-  const userId = user?.user.id??"";
+  const userId = user?.user.id ?? "";
 
-  const {
-    data: userIconData,
-    error,
-    isLoading,
-  } = useHeader(userId);
+  const { data: userIconData, error, isLoading } = useHeader(userId);
 
   if (isLoading) {
     return <div>Loading...</div>;

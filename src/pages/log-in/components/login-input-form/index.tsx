@@ -21,7 +21,7 @@ const LoginInputForm: React.FC = () => {
     if (fieldValues.email == "" && fieldValues.password == "") {
       return;
     }
-    handleLogin(fieldValues,{
+    handleLogin(fieldValues, {
       onSuccess: () => {
         navigate("/profile");
       },
