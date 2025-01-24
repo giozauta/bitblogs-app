@@ -45,6 +45,7 @@ const LoginInputForm: React.FC = () => {
           return (
             <>
               <input
+                placeholder="giozautaa@gmail.com"
                 onChange={field.onChange} // ეს იგივეა რომ გავსფრიდოთ {...field}
                 value={field.value} //ეს იგივეა რომ გავსფრიდოთ {...field}
                 className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
@@ -82,6 +83,7 @@ const LoginInputForm: React.FC = () => {
             <>
               <input
                 type="password"
+                placeholder="123456"
                 {...field} //იგივეა რომ ამოგვეღო ცალცალკე onChange={field.onChange} value={field.value}
                 className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
               />
